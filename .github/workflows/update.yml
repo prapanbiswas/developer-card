@@ -1,0 +1,44 @@
+name: 🔄 Auto-Update Developer Card
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update-card:
+    name: Regenerate index.html
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🟢 Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🚀 Run update-card.js
+        env:
+          OPENWEATHERMAP_API_KEY: ${{ secrets.OPENWEATHERMAP_API_KEY }}
+        run: node update-card.js
+
+      - name: 📤 Commit and push updated files
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add index.html state.json
+          if git diff --staged --quiet; then
+            echo "No changes detected — skipping commit."
+          else
+            TIMESTAMP=$(TZ='Asia/Dhaka' date '+%Y-%m-%d %H:%M BDT')
+            git commit -m "🤖 Auto-update: ${TIMESTAMP}"
+            git push
+          fi
