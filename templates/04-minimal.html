@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{DEV_NAME}}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --ink:     #1a1a1a;
+      --ink-mid: #5a5a5a;
+      --ink-dim: #aaaaaa;
+      --rule:    #e0e0e0;
+      --bg:      #f7f5f0;
+      --card:    #fefefe;
+      --accent:  #2c3e50;
+    }
+
+    body {
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .card {
+      width: min(620px, 100%);
+      background: var(--card);
+      padding: 56px 60px;
+      border: 1px solid var(--rule);
+      position: relative;
+    }
+
+    /* Fine top rule with dot */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 60px; right: 60px;
+      height: 2px;
+      background: var(--ink);
+    }
+
+    .masthead {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 40px;
+    }
+
+    .name-block h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 5vw, 46px);
+      font-weight: 300;
+      letter-spacing: -.01em;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+
+    .name-block .title {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      margin-top: 10px;
+    }
+
+    .avatar {
+      width: 72px;
+      height: 72px;
+      object-fit: cover;
+      border-radius: 50%;
+      filter: grayscale(0.3);
+      flex-shrink: 0;
+    }
+
+    .rule { height: 1px; background: var(--rule); margin: 24px 0; }
+    .rule-double {
+      height: 1px;
+      background: var(--rule);
+      margin: 24px 0 0;
+      position: relative;
+    }
+    .rule-double::before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 0; right: 0;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    .bio {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      font-style: italic;
+      color: var(--ink-mid);
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+
+    /* Two-column layout */
+    .columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .col { padding: 0; }
+    .col:first-child { padding-right: 28px; border-right: 1px solid var(--rule); }
+    .col:last-child  { padding-left: 28px; }
+
+    .col-label {
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--ink-dim);
+      margin-bottom: 14px;
+    }
+
+    .contact-item {
+      font-size: 12.5px;
+      color: var(--ink-mid);
+      margin-bottom: 8px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .contact-item .ci-label {
+      font-weight: 500;
+      color: var(--ink);
+      min-width: 60px;
+    }
+
+    a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+    a:hover { color: var(--ink); }
+
+    /* Skills - refined chip style */
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    .skill-tag {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .06em;
+      color: var(--ink-mid);
+      border: 1px solid var(--rule);
+      padding: 3px 10px;
+    }
+
+    /* Info panels */
+    .info-section { margin-top: 28px; }
+
+    .info-block { margin-bottom: 20px; }
+
+    .info-block .ilabel {
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--ink-dim);
+      margin-bottom: 8px;
+    }
+
+    .info-block .ivalue {
+      font-size: 13px;
+      color: var(--ink-mid);
+      line-height: 1.65;
+    }
+
+    .footer {
+      margin-top: 36px;
+      padding-top: 18px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: .06em;
+      color: var(--ink-dim);
+    }
+
+    @media (max-width: 520px) {
+      .card { padding: 36px 28px; }
+      .columns { grid-template-columns: 1fr; }
+      .col:first-child { padding-right: 0; border-right: none; border-bottom: 1px solid var(--rule); padding-bottom: 20px; margin-bottom: 20px; }
+      .col:last-child { padding-left: 0; }
+      .masthead { flex-direction: column-reverse; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="masthead">
+      <div class="name-block">
+        <h1>{{DEV_NAME}}</h1>
+        <div class="title">{{DEV_TITLE}}</div>
+      </div>
+      <img class="avatar" src="{{PROFILE_PIC}}" alt="{{DEV_NAME}}">
+    </div>
+
+    <p class="bio">{{DEV_BIO}}</p>
+
+    <div class="rule"></div>
+
+    <div class="columns">
+      <div class="col">
+        <div class="col-label">Contact</div>
+        <div class="contact-item">
+          <span class="ci-label">Location</span>
+          <span>{{DEV_LOCATION}}</span>
+        </div>
+        <div class="contact-item">
+          <span class="ci-label">GitHub</span>
+          <a href="{{DEV_GITHUB}}">{{DEV_GITHUB}}</a>
+        </div>
+        <div class="contact-item">
+          <span class="ci-label">Email</span>
+          <span>{{DEV_EMAIL}}</span>
+        </div>
+      </div>
+      <div class="col">
+        <div class="col-label">Technologies</div>
+        <div class="skills">{{DEV_SKILLS}}</div>
+      </div>
+    </div>
+
+    <div class="rule-double" style="margin-top:24px;margin-bottom:0;"></div>
+    <div style="height:16px"></div>
+
+    <div class="info-section">
+      <div class="info-block">
+        <div class="ilabel">{{WEATHER_EMOJI}} Current Weather · {{WEATHER_CITY}}</div>
+        <div class="ivalue">{{WEATHER}}</div>
+      </div>
+      <div class="info-block">
+        <div class="ilabel">Today's Dev Joke</div>
+        <div class="ivalue">
+          <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;">
+            "{{JOKE}}"
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>{{LAST_UPDATED}}</span>
+      <span>{{TEMPLATE_NAME}}</span>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Developer Card — Initializing…</title>
+  <style>
+    body {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; margin: 0;
+      background: #0a0a0a; color: #00ff41;
+      font-family: monospace; font-size: 16px;
+      flex-direction: column; gap: 12px;
+      text-align: center; padding: 20px;
+    }
+    .blink { animation: blink 1s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+  </style>
+</head>
+<body>
+  <div>⚙️  GitHub Actions is building your card…</div>
+  <div style="color:#888;font-size:13px;">
+    Trigger the workflow manually from Actions tab,<br>
+    or wait for the next hourly run.
+  </div>
+  <div class="blink">█</div>
+</body>
+</html>

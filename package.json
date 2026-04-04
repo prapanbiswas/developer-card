@@ -1,0 +1,16 @@
+{
+  "name": "developer-visiting-card",
+  "version": "1.0.0",
+  "description": "Auto-updating developer visiting card for GitHub Pages — powered by GitHub Actions",
+  "main": "update-card.js",
+  "scripts": {
+    "update": "node update-card.js",
+    "dev": "node update-card.js"
+  },
+  "keywords": ["github-pages", "developer-card", "auto-update", "github-actions"],
+  "author": "Your Name",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
