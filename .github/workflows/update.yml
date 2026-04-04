@@ -23,7 +23,7 @@ jobs:
           node-version: '20'
 
       - name: 📦 Install dependencies
-        run: npm ci
+        run: npm install --no-package-lock
 
       - name: 🚀 Run update-card.js
         env:
