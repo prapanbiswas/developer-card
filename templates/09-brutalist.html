@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{DEV_NAME}}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f3ee;
+      --yellow: #f5e642;
+      --red:   #e8001d;
+      --border: 3px solid #0a0a0a;
+    }
+
+    body {
+      background: var(--yellow);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 20px;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .frame {
+      width: min(700px, 100%);
+      background: var(--white);
+      border: var(--border);
+      box-shadow: 8px 8px 0 var(--black);
+    }
+
+    /* Top strip */
+    .top-strip {
+      background: var(--black);
+      color: var(--yellow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 20px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .inner { display: grid; grid-template-columns: 200px 1fr; border-top: var(--border); }
+
+    /* Left rail */
+    .rail {
+      border-right: var(--border);
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .avatar {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      border-bottom: var(--border);
+      filter: contrast(1.05);
+    }
+
+    .rail-block {
+      padding: 14px 16px;
+      border-bottom: var(--border);
+    }
+
+    .rail-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #666;
+      margin-bottom: 5px;
+    }
+
+    .rail-val {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--black);
+      word-break: break-all;
+    }
+
+    .rail-val a { color: var(--black); text-decoration: underline; text-underline-offset: 3px; }
+
+    /* Skills stacked */
+    .skills-list { display: flex; flex-direction: column; gap: 0; }
+
+    .skill-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-bottom: 1px solid rgba(0,0,0,0.12);
+      color: var(--black);
+      background: transparent;
+      transition: background .15s;
+    }
+    .skill-tag:nth-child(even) { background: rgba(0,0,0,0.03); }
+    .skill-tag:last-child { border-bottom: none; }
+
+    /* Main content */
+    .main-area { display: flex; flex-direction: column; }
+
+    .name-block {
+      padding: 20px 24px 16px;
+      border-bottom: var(--border);
+    }
+
+    .name-block h1 {
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1;
+      letter-spacing: -.02em;
+      text-transform: uppercase;
+    }
+
+    /* Red accent under name */
+    .name-block h1 span {
+      display: block;
+      width: 48px;
+      height: 4px;
+      background: var(--red);
+      margin-top: 10px;
+    }
+
+    .name-block .subtitle {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      color: #555;
+      letter-spacing: .06em;
+      margin-top: 6px;
+    }
+
+    .bio-block {
+      padding: 16px 24px;
+      border-bottom: var(--border);
+    }
+
+    .bio-block p {
+      font-size: 14px;
+      color: var(--black);
+      line-height: 1.65;
+    }
+
+    /* Info rows */
+    .info-row {
+      padding: 14px 24px;
+      border-bottom: var(--border);
+    }
+
+    .info-row:last-child { border-bottom: none; }
+
+    .row-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 6px;
+    }
+
+    .row-val {
+      font-size: 13.5px;
+      color: var(--black);
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    /* Joke gets accent bg */
+    .info-row.joke-row { background: var(--yellow); }
+
+    .info-row.joke-row .row-label { color: #664400; }
+
+    .info-row.joke-row .row-val {
+      font-style: italic;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 400;
+    }
+
+    /* Links row */
+    .link-row {
+      display: flex;
+      gap: 0;
+      border-top: var(--border);
+    }
+
+    .link-item {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 8px;
+      text-decoration: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--black);
+      background: var(--white);
+      border-right: var(--border);
+      transition: background .15s, color .15s;
+    }
+    .link-item:last-child { border-right: none; }
+    .link-item:hover { background: var(--black); color: var(--yellow); }
+
+    /* Footer */
+    .bottom-strip {
+      background: var(--red);
+      color: var(--white);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 20px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 520px) {
+      .inner { grid-template-columns: 1fr; }
+      .rail { border-right: none; border-bottom: var(--border); flex-direction: row; flex-wrap: wrap; }
+      .avatar { width: 140px; height: 160px; border-right: var(--border); border-bottom: none; }
+      .rail-block { flex: 1; min-width: 150px; }
+      .skills-list { flex-direction: row; flex-wrap: wrap; }
+      .skill-tag { border-bottom: none; border-right: 1px solid rgba(0,0,0,0.12); }
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <div class="top-strip">
+      <span>DEV-CARD // OPEN SOURCE</span>
+      <span>{{LAST_UPDATED}}</span>
+    </div>
+
+    <div class="inner">
+      <!-- Left Rail -->
+      <div class="rail">
+        <img class="avatar" src="{{PROFILE_PIC}}" alt="{{DEV_NAME}}">
+        <div class="rail-block">
+          <div class="rail-label">Location</div>
+          <div class="rail-val">{{DEV_LOCATION}}</div>
+        </div>
+        <div class="rail-block">
+          <div class="rail-label">Contact</div>
+          <div class="rail-val">{{DEV_EMAIL}}</div>
+        </div>
+        <div class="rail-block" style="flex:1;">
+          <div class="rail-label">Stack</div>
+          <div class="skills-list">{{DEV_SKILLS}}</div>
+        </div>
+      </div>
+
+      <!-- Main -->
+      <div class="main-area">
+        <div class="name-block">
+          <h1>{{DEV_NAME}}<span></span></h1>
+          <div class="subtitle">// {{DEV_TITLE}}</div>
+        </div>
+
+        <div class="bio-block">
+          <p>{{DEV_BIO}}</p>
+        </div>
+
+        <div class="info-row">
+          <div class="row-label">{{WEATHER_EMOJI}} Live Weather · {{WEATHER_CITY}}</div>
+          <div class="row-val">{{WEATHER}}</div>
+        </div>
+
+        <div class="info-row joke-row">
+          <div class="row-label">🃏 Dev Joke</div>
+          <div class="row-val">"{{JOKE}}"</div>
+        </div>
+
+        <div class="link-row">
+          <a class="link-item" href="{{DEV_GITHUB}}">GH</a>
+          <a class="link-item" href="{{DEV_LINKEDIN}}">LI</a>
+          <a class="link-item" href="mailto:{{DEV_EMAIL}}">✉</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-strip">
+      <span>{{TEMPLATE_NAME}}</span>
+      <span>Auto-updated via GitHub Actions</span>
+    </div>
+  </div>
+</body>
+</html>

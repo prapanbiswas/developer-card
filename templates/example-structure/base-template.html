@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════════════════════════╗
+  ║          BASE TEMPLATE — Developer Visiting Card System                  ║
+  ║  Bare-bones starter for building your own custom card theme.             ║
+  ╚══════════════════════════════════════════════════════════════════════════╝
+
+  HOW TO CREATE YOUR OWN TEMPLATE:
+  ─────────────────────────────────────────────────────────────────────────────
+  1. COPY this file to the templates/ directory (one level up from here):
+
+       cp templates/example-structure/base-template.html templates/11-my-theme.html
+
+  2. Name it with a number prefix so it fits the rotation order, e.g.:
+         11-my-theme.html
+         12-another-theme.html
+
+  3. Write your own HTML + CSS inside this file. Style it however you like.
+     The update-card.js script will automatically detect and use your file.
+
+  4. Use the PLACEHOLDERS below wherever you want live/profile data injected.
+     The script replaces them with real values every hour.
+
+  AVAILABLE PLACEHOLDERS:
+  ─────────────────────────────────────────────────────────────────────────────
+  Profile (from config.json — you set these once):
+    {{DEV_NAME}}       →  Your full name, e.g. "Jane Developer"
+    {{DEV_TITLE}}      →  Your job title, e.g. "Full-Stack Engineer"
+    {{DEV_BIO}}        →  A short bio paragraph
+    {{DEV_LOCATION}}   →  Your city + country, e.g. "Khulna, Bangladesh"
+    {{DEV_GITHUB}}     →  Your GitHub URL (full https://... link)
+    {{DEV_LINKEDIN}}   →  Your LinkedIn URL
+    {{DEV_EMAIL}}      →  Your email address
+    {{DEV_SKILLS}}     →  Pre-rendered <span class="skill-tag"> elements
+                          (style .skill-tag in your CSS however you like)
+    {{PROFILE_PIC}}    →  Relative path to your profile image → ./images/profile.jpg
+
+  Live Data (updates every hour via GitHub Actions):
+    {{WEATHER}}        →  Full weather string: "☀️ 30°C · clear sky · Feels 32°C · 💧 70% · 💨 3.2 m/s"
+    {{WEATHER_TEMP}}   →  Temperature only: "30°C"
+    {{WEATHER_EMOJI}}  →  Weather emoji only: "☀️"
+    {{WEATHER_DESC}}   →  Description only: "clear sky"
+    {{WEATHER_CITY}}   →  City name: "Khulna"
+    {{JOKE}}           →  A single programming joke string
+
+  Meta:
+    {{LAST_UPDATED}}   →  Timestamp string: "04 Jan 2025, 03:00 PM BDT"
+    {{TEMPLATE_NAME}}  →  This file's name without .html: "11-my-theme"
+
+  TIPS:
+  ─────────────────────────────────────────────────────────────────────────────
+  • Keep all your CSS inside a <style> tag in this file (single-file template).
+  • You CAN use Google Fonts (or any external CDN) via <link> in <head>.
+  • The script does a global string replace, so you can use a placeholder
+    multiple times in the same template.
+  • Avoid putting {{ or }} in your CSS/JS for other reasons — it won't break
+    anything, but it's cleaner to keep placeholders clearly distinct.
+  • The .skill-tag class is required for skills to render — style it however.
+  • Test locally: OPENWEATHERMAP_API_KEY=your_key node update-card.js
+    This generates index.html so you can open it in a browser.
+
+  CONTRIBUTING BACK:
+  ─────────────────────────────────────────────────────────────────────────────
+  If you build a cool theme, consider opening a Pull Request to this repo!
+  Name your file NN-theme-name.html and follow the same placeholder conventions.
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Card title — you can use {{DEV_NAME}} here too -->
+  <title>{{DEV_NAME}} — Developer Card</title>
+
+  <!--
+    ── OPTIONAL: Link external fonts here ──────────────────────────────────
+    Example (Google Fonts):
+    <link href="https://fonts.googleapis.com/css2?family=YourFont&display=swap" rel="stylesheet">
+  -->
+
+  <style>
+    /*
+      ── Reset ────────────────────────────────────────────────────────────────
+      Always start with this for consistent cross-browser behavior.
+    */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /*
+      ── CSS Variables ────────────────────────────────────────────────────────
+      Define your color palette here. Makes theming easy to adjust.
+    */
+    :root {
+      --bg:       #ffffff;   /* Page background */
+      --surface:  #f0f0f0;   /* Card background */
+      --text:     #111111;   /* Primary text */
+      --text-dim: #666666;   /* Secondary text */
+      --accent:   #0070f3;   /* Accent color */
+      --border:   #e0e0e0;   /* Divider lines */
+    }
+
+    /*
+      ── Page layout: center the card ────────────────────────────────────────
+    */
+    body {
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      font-family: sans-serif;
+      color: var(--text);
+    }
+
+    /*
+      ── Card container ───────────────────────────────────────────────────────
+      max-width keeps it readable on wide screens.
+      100% makes it responsive on mobile.
+    */
+    .card {
+      width: min(640px, 100%);
+      background: var(--surface);
+      padding: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    /* ── Profile section ──────────────────────────────────────────────────── */
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 2px solid var(--border);
+    }
+
+    .profile-info h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .profile-info .title {
+      font-size: 14px;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+
+    .profile-info .location {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    /* ── Bio ────────────────────────────────────────────────────────────────── */
+    .bio {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+
+    /* ── Divider ─────────────────────────────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 16px 0;
+    }
+
+    /*
+      ── Skills ──────────────────────────────────────────────────────────────
+      REQUIRED: The script injects <span class="skill-tag"> elements.
+      Style this class however you want — pill, tag, badge, plain text, etc.
+    */
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .skill-tag {
+      /* ← YOUR STYLE HERE — this is what gets injected */
+      background: var(--accent);
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* ── Live data section ──────────────────────────────────────────────────── */
+    .live-section {
+      margin-bottom: 20px;
+    }
+
+    .live-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+
+    .live-value {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    /* ── Contact links ──────────────────────────────────────────────────────── */
+    .links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .links a {
+      font-size: 13px;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid var(--accent);
+      padding: 6px 14px;
+      border-radius: 4px;
+    }
+    .links a:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────────── */
+    .footer {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* ── Responsive ──────────────────────────────────────────────────────────── */
+    @media (max-width: 480px) {
+      .card { padding: 20px; }
+      .profile { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <!-- ── Profile ───────────────────────────────────────────────────────── -->
+    <div class="profile">
+      <!--
+        {{PROFILE_PIC}} → resolves to ./images/profile.jpg
+        Put your photo at: images/profile.jpg
+      -->
+      <img class="avatar" src="{{PROFILE_PIC}}" alt="{{DEV_NAME}}">
+
+      <div class="profile-info">
+        <h1>{{DEV_NAME}}</h1>
+        <div class="title">{{DEV_TITLE}}</div>
+        <div class="location">📍 {{DEV_LOCATION}}</div>
+      </div>
+    </div>
+
+    <!-- ── Bio ───────────────────────────────────────────────────────────── -->
+    <p class="bio">{{DEV_BIO}}</p>
+
+    <!-- ── Skills ────────────────────────────────────────────────────────── -->
+    <!--
+      {{DEV_SKILLS}} expands to a series of <span class="skill-tag"> elements.
+      Example output: <span class="skill-tag">JavaScript</span><span class="skill-tag">React</span>
+      Style .skill-tag in your CSS above.
+    -->
+    <div class="skills">{{DEV_SKILLS}}</div>
+
+    <div class="divider"></div>
+
+    <!-- ── Live: Weather ────────────────────────────────────────────────── -->
+    <div class="live-section">
+      <div class="live-label">{{WEATHER_EMOJI}} Current Weather in {{WEATHER_CITY}}</div>
+      <!--
+        {{WEATHER}} gives the full string: "☀️ 30°C · clear sky · Feels 32°C · 💧 70% · 💨 3.2 m/s"
+        You can also use individual parts: {{WEATHER_TEMP}}, {{WEATHER_DESC}}, etc.
+      -->
+      <div class="live-value">{{WEATHER}}</div>
+    </div>
+
+    <!-- ── Live: Joke ────────────────────────────────────────────────────── -->
+    <div class="live-section">
+      <div class="live-label">🃏 Programming Joke</div>
+      <!--
+        {{JOKE}} → a single programming joke string, refreshed every hour.
+      -->
+      <div class="live-value">{{JOKE}}</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Contact Links ─────────────────────────────────────────────────── -->
+    <div class="links">
+      <a href="{{DEV_GITHUB}}">GitHub</a>
+      <a href="{{DEV_LINKEDIN}}">LinkedIn</a>
+      <a href="mailto:{{DEV_EMAIL}}">Email</a>
+    </div>
+
+    <!-- ── Footer ────────────────────────────────────────────────────────── -->
+    <div class="footer">
+      <!--
+        {{LAST_UPDATED}} → "04 Jan 2025, 03:00 PM BDT"
+        {{TEMPLATE_NAME}} → "base-template" (filename without .html)
+      -->
+      <span>Last updated: {{LAST_UPDATED}}</span>
+      <span>{{TEMPLATE_NAME}}</span>
+    </div>
+
+  </div><!-- /.card -->
+
+</body>
+</html>

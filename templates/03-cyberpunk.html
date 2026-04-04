@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{DEV_NAME}} — Developer Card</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --yellow:  #f5e642;
+      --magenta: #ff2d78;
+      --cyan:    #00f5ff;
+      --bg:      #060608;
+      --surface: #0c0c10;
+      --text:    #e8e8f0;
+      --dim:     #555566;
+    }
+
+    body {
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      font-family: 'Rajdhani', sans-serif;
+      overflow: hidden;
+    }
+
+    /* Grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(245,230,66,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245,230,66,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .card {
+      width: min(680px, 100%);
+      background: var(--surface);
+      position: relative;
+      border: 1px solid var(--yellow);
+      /* Cyberpunk cut corners */
+      clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+      box-shadow:
+        0 0 0 1px rgba(245,230,66,0.1),
+        0 0 40px rgba(245,230,66,0.07),
+        inset 0 0 40px rgba(0,0,0,0.5);
+    }
+
+    /* Corner accents */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -1px; right: -1px;
+      width: 40px; height: 40px;
+      background: var(--yellow);
+      clip-path: polygon(0 0, 100% 0, 100% 30%, 30% 100%, 0 100%);
+      opacity: .15;
+    }
+
+    .card::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: -1px;
+      width: 40px; height: 40px;
+      background: var(--magenta);
+      clip-path: polygon(0 0, 70% 0, 100% 70%, 100% 100%, 0 100%);
+      opacity: .15;
+    }
+
+    .top-bar {
+      background: var(--yellow);
+      padding: 5px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .top-bar span {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: #000;
+      letter-spacing: .1em;
+    }
+
+    .body { padding: 26px 28px 22px; color: var(--text); }
+
+    /* Glitch name */
+    .name-wrap { position: relative; margin-bottom: 4px; }
+
+    .name {
+      font-size: clamp(28px, 6vw, 42px);
+      font-weight: 700;
+      color: var(--yellow);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      line-height: 1;
+      position: relative;
+      display: inline-block;
+    }
+
+    .name::before, .name::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+    }
+    .name::before {
+      color: var(--magenta);
+      animation: glitch-1 4s infinite;
+      clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+    }
+    .name::after {
+      color: var(--cyan);
+      animation: glitch-2 4s infinite;
+      clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+    }
+
+    @keyframes glitch-1 {
+      0%,89%,91%,100% { transform: translate(0); opacity: 0; }
+      90% { transform: translate(-3px, 1px); opacity: .8; }
+    }
+    @keyframes glitch-2 {
+      0%,87%,89%,100% { transform: translate(0); opacity: 0; }
+      88% { transform: translate(3px, -1px); opacity: .8; }
+    }
+
+    .title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--magenta);
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      margin: 8px 0 4px;
+    }
+
+    .location {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      color: var(--dim);
+      letter-spacing: .08em;
+    }
+
+    .flex-layout {
+      display: flex;
+      gap: 24px;
+      margin: 20px 0;
+      align-items: flex-start;
+    }
+
+    .avatar {
+      width: 90px;
+      height: 110px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--yellow);
+      filter: contrast(1.1) saturate(0.2) brightness(0.85);
+      box-shadow: 4px 4px 0 var(--magenta);
+    }
+
+    .meta { flex: 1; }
+
+    .bio {
+      font-size: 13.5px;
+      color: rgba(232,232,240,0.7);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    /* Neon separator */
+    .neon-line {
+      height: 1px;
+      background: linear-gradient(90deg, var(--yellow), var(--magenta), var(--cyan), transparent);
+      margin: 16px 0;
+    }
+
+    /* Data rows */
+    .data-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0;
+      border-bottom: 1px solid #111118;
+      font-size: 13.5px;
+    }
+
+    .data-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--cyan);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .data-val { color: var(--text); font-weight: 600; }
+
+    /* Skills */
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 14px 0;
+    }
+
+    .skill-tag {
+      background: transparent;
+      border: 1px solid rgba(245,230,66,0.5);
+      color: var(--yellow);
+      font-size: 11px;
+      font-family: 'Share Tech Mono', monospace;
+      letter-spacing: .08em;
+      padding: 3px 10px;
+      text-transform: uppercase;
+      clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+    }
+
+    /* Info boxes */
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
+
+    .info-box {
+      border: 1px solid #1a1a22;
+      border-left: 2px solid var(--cyan);
+      padding: 10px 12px;
+      background: rgba(0,245,255,0.02);
+    }
+    .info-box.joke { grid-column: 1 / -1; border-left-color: var(--magenta); background: rgba(255,45,120,0.02); }
+
+    .info-title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--cyan);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .info-box.joke .info-title { color: var(--magenta); }
+
+    .info-val { font-size: 12.5px; color: rgba(232,232,240,0.8); line-height: 1.55; }
+
+    .footer-bar {
+      background: rgba(245,230,66,0.05);
+      border-top: 1px solid #1a1a22;
+      padding: 8px 28px;
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10.5px;
+      color: var(--dim);
+      letter-spacing: .06em;
+    }
+
+    a { color: var(--yellow); text-decoration: none; }
+    a:hover { color: var(--cyan); }
+
+    @media (max-width: 500px) {
+      .flex-layout { flex-direction: column; }
+      .info-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="top-bar">
+      <span>// DEVCARD_SYS v2.0.77</span>
+      <span>STATUS: ONLINE ▮</span>
+    </div>
+
+    <div class="body">
+      <div class="name-wrap">
+        <div class="name" data-text="{{DEV_NAME}}">{{DEV_NAME}}</div>
+      </div>
+      <div class="title">▶ {{DEV_TITLE}}</div>
+      <div class="location">📍 {{DEV_LOCATION}}</div>
+
+      <div class="flex-layout">
+        <img class="avatar" src="{{PROFILE_PIC}}" alt="{{DEV_NAME}}">
+        <div class="meta">
+          <p class="bio">{{DEV_BIO}}</p>
+          <div class="skills">{{DEV_SKILLS}}</div>
+        </div>
+      </div>
+
+      <div class="neon-line"></div>
+
+      <div class="data-row">
+        <span class="data-label">GITHUB</span>
+        <a class="data-val" href="{{DEV_GITHUB}}">{{DEV_GITHUB}}</a>
+      </div>
+      <div class="data-row">
+        <span class="data-label">CONTACT</span>
+        <span class="data-val">{{DEV_EMAIL}}</span>
+      </div>
+
+      <div class="neon-line"></div>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <div class="info-title">{{WEATHER_EMOJI}} Live Weather</div>
+          <div class="info-val">{{WEATHER}}</div>
+        </div>
+        <div class="info-box joke">
+          <div class="info-title">⚡ Dev Joke</div>
+          <div class="info-val">{{JOKE}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bar">
+      <span>LAST_SYNC: {{LAST_UPDATED}}</span>
+      <span>TPL://{{TEMPLATE_NAME}}</span>
+    </div>
+  </div>
+</body>
+</html>

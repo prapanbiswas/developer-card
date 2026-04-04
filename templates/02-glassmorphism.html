@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{DEV_NAME}} — Developer Card</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --blur-bg:  rgba(255, 255, 255, 0.08);
+      --blur-bdr: rgba(255, 255, 255, 0.2);
+      --text:     #fff;
+      --text-dim: rgba(255,255,255,0.6);
+      --accent:   #a78bfa;
+      --accent2:  #67e8f9;
+      --pill-bg:  rgba(255,255,255,0.12);
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      font-family: 'Nunito', sans-serif;
+      color: var(--text);
+      /* Rich multi-stop gradient background */
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 20%, #3b0764 0%, transparent 60%),
+        radial-gradient(ellipse 70% 50% at 80% 10%, #0c4a6e 0%, transparent 50%),
+        radial-gradient(ellipse 60% 60% at 50% 80%, #1e1b4b 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 90% 90%, #064e3b 0%, transparent 50%),
+        #0f0a1e;
+      overflow: hidden;
+    }
+
+    /* Floating orbs */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: .35;
+      pointer-events: none;
+    }
+    body::before {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, #a855f7 0%, #6366f1 60%, transparent 100%);
+      top: -100px; left: -100px;
+      animation: drift 16s ease-in-out infinite alternate;
+    }
+    body::after {
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, #06b6d4 0%, #0284c7 60%, transparent 100%);
+      bottom: -80px; right: -80px;
+      animation: drift 12s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(40px, 30px) scale(1.1); }
+    }
+
+    .card {
+      width: min(640px, 100%);
+      background: var(--blur-bg);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid var(--blur-bdr);
+      border-radius: 24px;
+      padding: 36px;
+      box-shadow:
+        0 8px 32px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Inner glow line at top */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(167,139,250,0.8), transparent);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.25);
+      box-shadow: 0 0 0 4px rgba(167,139,250,0.2), 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    .status-dot {
+      position: absolute;
+      bottom: 4px; right: 4px;
+      width: 14px; height: 14px;
+      background: #4ade80;
+      border-radius: 50%;
+      border: 2px solid rgba(0,0,0,0.4);
+      box-shadow: 0 0 8px #4ade80;
+      animation: pulse-green 2s infinite;
+    }
+    @keyframes pulse-green {
+      0%,100% { box-shadow: 0 0 6px #4ade80; }
+      50%      { box-shadow: 0 0 16px #4ade80; }
+    }
+
+    .headline h1 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -.01em;
+      line-height: 1.2;
+    }
+
+    .headline h2 {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--accent);
+      margin-top: 4px;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .headline .location {
+      font-size: 12.5px;
+      color: var(--text-dim);
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .bio {
+      font-size: 13.5px;
+      color: var(--text-dim);
+      line-height: 1.65;
+      margin-bottom: 22px;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+      margin: 18px 0;
+    }
+
+    /* Skills */
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 22px;
+    }
+
+    .skill-tag {
+      background: var(--pill-bg);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: .02em;
+      backdrop-filter: blur(8px);
+    }
+
+    /* Info panels */
+    .panels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .panel {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 14px 16px;
+      backdrop-filter: blur(8px);
+    }
+
+    .panel-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 7px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .panel-content {
+      font-size: 12.5px;
+      color: var(--text);
+      line-height: 1.55;
+      font-weight: 400;
+    }
+
+    .panel.full { grid-column: 1 / -1; }
+
+    /* Links */
+    .links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 99px;
+      font-size: 12.5px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.07);
+      color: var(--text);
+      transition: background .2s, border-color .2s, transform .15s;
+    }
+    .link-btn:hover {
+      background: rgba(255,255,255,0.14);
+      border-color: rgba(255,255,255,0.35);
+      transform: translateY(-1px);
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+      margin-top: 18px;
+    }
+
+    @media (max-width: 500px) {
+      .card { padding: 24px 20px; }
+      .panels { grid-template-columns: 1fr; }
+      .header { flex-direction: column; text-align: center; }
+      .headline .location { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <div class="avatar-wrap">
+        <img class="avatar" src="{{PROFILE_PIC}}" alt="{{DEV_NAME}}">
+        <span class="status-dot" title="Available"></span>
+      </div>
+      <div class="headline">
+        <h1>{{DEV_NAME}}</h1>
+        <h2>{{DEV_TITLE}}</h2>
+        <div class="location">📍 {{DEV_LOCATION}}</div>
+      </div>
+    </div>
+
+    <p class="bio">{{DEV_BIO}}</p>
+
+    <div class="skills">{{DEV_SKILLS}}</div>
+
+    <div class="divider"></div>
+
+    <div class="panels">
+      <div class="panel">
+        <div class="panel-label">{{WEATHER_EMOJI}} Live Weather</div>
+        <div class="panel-content">{{WEATHER}}</div>
+      </div>
+      <div class="panel full">
+        <div class="panel-label">🃏 Dev Joke</div>
+        <div class="panel-content">{{JOKE}}</div>
+      </div>
+    </div>
+
+    <div class="links">
+      <a class="link-btn" href="{{DEV_GITHUB}}">⚡ GitHub</a>
+      <a class="link-btn" href="{{DEV_LINKEDIN}}">🔗 LinkedIn</a>
+      <a class="link-btn" href="mailto:{{DEV_EMAIL}}">✉️ Email</a>
+    </div>
+
+    <div class="footer">Last updated: {{LAST_UPDATED}} &nbsp;·&nbsp; {{TEMPLATE_NAME}}</div>
+  </div>
+</body>
+</html>

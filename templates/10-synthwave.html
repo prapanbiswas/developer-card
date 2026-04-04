@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{DEV_NAME}} — Synthwave</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --hot-pink:  #ff2d78;
+      --cyan:      #00f0ff;
+      --orange:    #ff7b00;
+      --purple:    #2d0045;
+      --deep:      #07000f;
+      --text:      #f0e8ff;
+      --text-dim:  #a090c0;
+    }
+
+    body {
+      background: var(--deep);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow: hidden;
+      font-family: 'Exo 2', sans-serif;
+    }
+
+    /* ── Synthwave Sky ── */
+    .sky {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        #07000f 0%,
+        #120020 25%,
+        #2d0045 45%,
+        #6b0062 58%,
+        #c4004a 70%,
+        #ff7b00 80%,
+        #ffca00 88%,
+        #ff7b00 90%,
+        #c4004a 92%,
+        transparent 100%
+      );
+      z-index: 0;
+    }
+
+    /* Sun */
+    .sun {
+      position: fixed;
+      bottom: 42%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #ffca00 0%, #ff7b00 50%, #c4004a 100%);
+      box-shadow:
+        0 0 40px rgba(255,123,0,0.6),
+        0 0 80px rgba(255,123,0,0.3),
+        0 0 160px rgba(255,45,120,0.2);
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    /* Sun stripes (horizon effect) */
+    .sun::after {
+      content: '';
+      position: absolute;
+      inset: 50% 0 0 0;
+      background: repeating-linear-gradient(
+        180deg,
+        var(--deep) 0px,
+        var(--deep) 4px,
+        transparent 4px,
+        transparent 8px
+      );
+      background-size: 100% 8px;
+    }
+
+    /* ── 3D Grid Floor ── */
+    .grid-floor {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200%;
+      height: 55%;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    .grid-floor::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,45,120,0.55) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,45,120,0.55) 1px, transparent 1px);
+      background-size: 80px 80px;
+      transform: perspective(300px) rotateX(70deg);
+      transform-origin: top center;
+      animation: grid-move 6s linear infinite;
+    }
+
+    @keyframes grid-move {
+      0%   { background-position: 0 0; }
+      100% { background-position: 0 80px; }
+    }
+
+    /* ── Card ── */
+    .card {
+      width: min(640px, 100%);
+      background: rgba(7, 0, 15, 0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,45,120,0.4);
+      border-radius: 4px;
+      position: relative;
+      z-index: 10;
+      box-shadow:
+        0 0 0 1px rgba(0,240,255,0.1),
+        0 0 60px rgba(255,45,120,0.15),
+        0 0 120px rgba(255,45,120,0.06),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    /* Neon top bar */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--hot-pink), var(--orange), transparent);
+      box-shadow: 0 0 12px var(--hot-pink);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 20px;
+      border-bottom: 1px solid rgba(255,45,120,0.2);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      letter-spacing: .12em;
+      color: var(--hot-pink);
+      text-transform: uppercase;
+    }
+
+    .card-body { padding: 24px 26px 20px; }
+
+    .header-row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--hot-pink);
+      border-radius: 4px;
+      box-shadow:
+        0 0 12px rgba(255,45,120,0.35),
+        4px 4px 0 rgba(0,240,255,0.15);
+      filter: saturate(1.15);
+    }
+
+    .identity h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(18px, 4vw, 26px);
+      font-weight: 900;
+      color: var(--text);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      line-height: 1.15;
+      text-shadow: 0 0 20px rgba(0,240,255,0.3);
+    }
+
+    .identity .title {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--cyan);
+      margin-top: 5px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .identity .loc {
+      font-size: 11.5px;
+      color: var(--text-dim);
+      margin-top: 5px;
+      letter-spacing: .05em;
+    }
+
+    .bio {
+      font-size: 13.5px;
+      color: var(--text-dim);
+      line-height: 1.65;
+      margin-bottom: 18px;
+      font-style: italic;
+    }
+
+    /* Neon divider */
+    .neon-rule {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,45,120,0.5), rgba(0,240,255,0.5), transparent);
+      margin: 16px 0;
+    }
+
+    /* Skills */
+    .skills { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 18px; }
+
+    .skill-tag {
+      background: rgba(255,45,120,0.06);
+      border: 1px solid rgba(255,45,120,0.35);
+      color: var(--hot-pink);
+      padding: 3px 11px;
+      font-size: 11.5px;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: .06em;
+      border-radius: 2px;
+    }
+
+    /* Data panels */
+    .panels { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+
+    .panel {
+      border: 1px solid rgba(0,240,255,0.15);
+      border-radius: 4px;
+      padding: 11px 13px;
+      background: rgba(0,240,255,0.02);
+      position: relative;
+    }
+
+    .panel.full { grid-column: 1 / -1; }
+    .panel.full { border-color: rgba(255,45,120,0.2); background: rgba(255,45,120,0.02); }
+
+    .p-lbl {
+      font-family: 'Orbitron', monospace;
+      font-size: 9px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 6px;
+    }
+
+    .panel.full .p-lbl { color: var(--hot-pink); }
+
+    .p-val {
+      font-size: 12.5px;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    /* Social buttons */
+    .socials { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .sw-btn {
+      padding: 7px 16px;
+      border: 1px solid rgba(255,45,120,0.5);
+      background: rgba(255,45,120,0.06);
+      color: var(--hot-pink);
+      font-size: 12px;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: background .2s, box-shadow .2s;
+    }
+    .sw-btn:hover {
+      background: rgba(255,45,120,0.14);
+      box-shadow: 0 0 12px rgba(255,45,120,0.3);
+    }
+    .sw-btn.c {
+      border-color: rgba(0,240,255,0.5);
+      background: rgba(0,240,255,0.05);
+      color: var(--cyan);
+    }
+    .sw-btn.c:hover {
+      background: rgba(0,240,255,0.12);
+      box-shadow: 0 0 12px rgba(0,240,255,0.3);
+    }
+
+    .card-footer {
+      padding: 8px 26px;
+      border-top: 1px solid rgba(255,45,120,0.15);
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9.5px;
+      letter-spacing: .1em;
+      color: rgba(160,144,192,0.5);
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 500px) {
+      .panels { grid-template-columns: 1fr; }
+      .header-row { flex-direction: column; }
+      .card-body { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="sky"></div>
+  <div class="sun"></div>
+  <div class="grid-floor"></div>
+
+  <div class="card">
+    <div class="card-top">
+      <span>◈ DEVCARD OS v8.0</span>
+      <span>{{WEATHER_EMOJI}} {{WEATHER_CITY}} ONLINE ◈</span>
+    </div>
+
+    <div class="card-body">
+      <div class="header-row">
+        <img class="avatar" src="{{PROFILE_PIC}}" alt="{{DEV_NAME}}">
+        <div class="identity">
+          <h1>{{DEV_NAME}}</h1>
+          <div class="title">{{DEV_TITLE}}</div>
+          <div class="loc">📍 {{DEV_LOCATION}}</div>
+        </div>
+      </div>
+
+      <p class="bio">{{DEV_BIO}}</p>
+
+      <div class="skills">{{DEV_SKILLS}}</div>
+
+      <div class="neon-rule"></div>
+
+      <div class="panels">
+        <div class="panel">
+          <div class="p-lbl">Live Weather</div>
+          <div class="p-val">{{WEATHER}}</div>
+        </div>
+        <div class="panel full">
+          <div class="p-lbl">Dev Joke Transmission</div>
+          <div class="p-val">{{JOKE}}</div>
+        </div>
+      </div>
+
+      <div class="socials">
+        <a class="sw-btn" href="{{DEV_GITHUB}}">GitHub</a>
+        <a class="sw-btn c" href="{{DEV_LINKEDIN}}">LinkedIn</a>
+        <a class="sw-btn" href="mailto:{{DEV_EMAIL}}">Mail</a>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <span>{{LAST_UPDATED}}</span>
+      <span>{{TEMPLATE_NAME}}</span>
+    </div>
+  </div>
+</body>
+</html>

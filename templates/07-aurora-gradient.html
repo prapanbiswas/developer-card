@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{DEV_NAME}}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --text:    #1a1035;
+      --text2:   #4a4070;
+      --text3:   #8878b0;
+      --card:    rgba(255,255,255,0.72);
+      --card-bd: rgba(255,255,255,0.9);
+      --pill1-bg: rgba(124,58,237,0.08);
+      --pill1-clr: #7c3aed;
+    }
+
+    @property --a1 { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+    @property --a2 { syntax: '<angle>'; initial-value: 60deg; inherits: false; }
+    @property --a3 { syntax: '<angle>'; initial-value: 120deg; inherits: false; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Aurora animated background */
+    .aurora {
+      position: fixed;
+      inset: 0;
+      background: #f0ecff;
+      z-index: 0;
+    }
+
+    .aurora::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      background:
+        radial-gradient(ellipse 60% 40% at 30% 40%, rgba(167,139,250,0.55) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 70% 20%, rgba(96,165,250,0.45) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 40% at 20% 80%, rgba(244,114,182,0.4) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 50% at 80% 70%, rgba(52,211,153,0.35) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 40% at 50% 50%, rgba(251,191,36,0.25) 0%, transparent 50%);
+      animation: aurora-shift 18s ease-in-out infinite alternate;
+      filter: blur(40px);
+    }
+
+    @keyframes aurora-shift {
+      0%   { transform: translate(0,0) scale(1) rotate(0deg); }
+      33%  { transform: translate(3%,3%) scale(1.04) rotate(3deg); }
+      66%  { transform: translate(-2%,4%) scale(0.97) rotate(-2deg); }
+      100% { transform: translate(4%,-2%) scale(1.06) rotate(4deg); }
+    }
+
+    .card {
+      width: min(640px, 100%);
+      background: var(--card);
+      backdrop-filter: blur(20px) saturate(200%);
+      -webkit-backdrop-filter: blur(20px) saturate(200%);
+      border-radius: 28px;
+      border: 1px solid var(--card-bd);
+      box-shadow:
+        0 2px 0 rgba(255,255,255,0.8) inset,
+        0 20px 60px rgba(90,60,160,0.15),
+        0 4px 16px rgba(90,60,160,0.08);
+      padding: 36px 36px 28px;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    /* Prismatic top shine */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.95), transparent);
+    }
+
+    .header {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+      margin-bottom: 26px;
+    }
+
+    .avatar {
+      width: 84px;
+      height: 84px;
+      border-radius: 22px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 2px solid rgba(255,255,255,0.8);
+      box-shadow:
+        0 8px 24px rgba(90,60,160,0.2),
+        0 2px 6px rgba(0,0,0,0.1),
+        0 0 0 4px rgba(167,139,250,0.15);
+    }
+
+    .name-area h1 {
+      font-size: clamp(22px,4vw,30px);
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -.02em;
+      line-height: 1.15;
+    }
+
+    .name-area .role {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--pill1-clr);
+      margin-top: 5px;
+      display: inline-block;
+      background: var(--pill1-bg);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .name-area .loc {
+      font-size: 12.5px;
+      color: var(--text3);
+      margin-top: 7px;
+    }
+
+    .bio {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.7;
+      margin-bottom: 22px;
+    }
+
+    .rule {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(124,58,237,0.2), rgba(59,130,246,0.2), transparent);
+      margin: 18px 0;
+    }
+
+    /* Skills */
+    .skills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+
+    .skill-tag {
+      background: rgba(124,58,237,0.07);
+      border: 1px solid rgba(124,58,237,0.18);
+      color: var(--pill1-clr);
+      border-radius: 20px;
+      padding: 5px 13px;
+      font-size: 12.5px;
+      font-weight: 600;
+      backdrop-filter: blur(8px);
+    }
+
+    /* Live info bubbles */
+    .bubbles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 22px; }
+
+    .bubble {
+      background: rgba(255,255,255,0.65);
+      border: 1px solid rgba(255,255,255,0.9);
+      border-radius: 16px;
+      padding: 14px 16px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 16px rgba(90,60,160,0.07);
+    }
+
+    .bubble.wide { grid-column: 1 / -1; }
+
+    .bubble-lbl {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 7px;
+    }
+
+    .bubble-val { font-size: 13px; color: var(--text2); line-height: 1.55; }
+
+    /* Social pills */
+    .socials { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .social-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.6);
+      color: var(--text);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 8px rgba(90,60,160,0.08);
+      transition: background .2s, transform .15s, box-shadow .2s;
+    }
+    .social-pill:hover {
+      background: rgba(255,255,255,0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(90,60,160,0.15);
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 20px;
+      font-weight: 500;
+    }
+
+    @media (max-width: 500px) {
+      .card { padding: 24px 20px 20px; }
+      .bubbles { grid-template-columns: 1fr; }
+      .header { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="aurora"></div>
+
+  <div class="card">
+    <div class="header">
+      <img class="avatar" src="{{PROFILE_PIC}}" alt="{{DEV_NAME}}">
+      <div class="name-area">
+        <h1>{{DEV_NAME}}</h1>
+        <span class="role">{{DEV_TITLE}}</span>
+        <div class="loc">📍 {{DEV_LOCATION}}</div>
+      </div>
+    </div>
+
+    <p class="bio">{{DEV_BIO}}</p>
+
+    <div class="skills">{{DEV_SKILLS}}</div>
+
+    <div class="rule"></div>
+
+    <div class="bubbles">
+      <div class="bubble">
+        <div class="bubble-lbl">{{WEATHER_EMOJI}} Weather · {{WEATHER_CITY}}</div>
+        <div class="bubble-val">{{WEATHER}}</div>
+      </div>
+      <div class="bubble wide">
+        <div class="bubble-lbl">🃏 Developer Joke</div>
+        <div class="bubble-val">{{JOKE}}</div>
+      </div>
+    </div>
+
+    <div class="socials">
+      <a class="social-pill" href="{{DEV_GITHUB}}">⚡ GitHub</a>
+      <a class="social-pill" href="{{DEV_LINKEDIN}}">🔗 LinkedIn</a>
+      <a class="social-pill" href="mailto:{{DEV_EMAIL}}">✉️ Email</a>
+    </div>
+
+    <div class="footer">Updated {{LAST_UPDATED}} · {{TEMPLATE_NAME}}</div>
+  </div>
+</body>
+</html>
