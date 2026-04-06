@@ -4,299 +4,322 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prapan Biswas — Developer Card</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --blur-bg:  rgba(255, 255, 255, 0.08);
-      --blur-bdr: rgba(255, 255, 255, 0.2);
-      --text:     #fff;
-      --text-dim: rgba(255,255,255,0.6);
-      --accent:   #a78bfa;
-      --accent2:  #67e8f9;
-      --pill-bg:  rgba(255,255,255,0.12);
+      --yellow:  #f5e642;
+      --magenta: #ff2d78;
+      --cyan:    #00f5ff;
+      --bg:      #060608;
+      --surface: #0c0c10;
+      --text:    #e8e8f0;
+      --dim:     #555566;
     }
 
     body {
+      background: var(--bg);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 24px;
-      font-family: 'Nunito', sans-serif;
-      color: var(--text);
-      /* Rich multi-stop gradient background */
-      background:
-        radial-gradient(ellipse 80% 60% at 20% 20%, #3b0764 0%, transparent 60%),
-        radial-gradient(ellipse 70% 50% at 80% 10%, #0c4a6e 0%, transparent 50%),
-        radial-gradient(ellipse 60% 60% at 50% 80%, #1e1b4b 0%, transparent 60%),
-        radial-gradient(ellipse 50% 40% at 90% 90%, #064e3b 0%, transparent 50%),
-        #0f0a1e;
+      font-family: 'Rajdhani', sans-serif;
       overflow: hidden;
     }
 
-    /* Floating orbs */
-    body::before, body::after {
+    /* Grid background */
+    body::before {
       content: '';
       position: fixed;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: .35;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(245,230,66,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245,230,66,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
       pointer-events: none;
-    }
-    body::before {
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, #a855f7 0%, #6366f1 60%, transparent 100%);
-      top: -100px; left: -100px;
-      animation: drift 16s ease-in-out infinite alternate;
-    }
-    body::after {
-      width: 350px; height: 350px;
-      background: radial-gradient(circle, #06b6d4 0%, #0284c7 60%, transparent 100%);
-      bottom: -80px; right: -80px;
-      animation: drift 12s ease-in-out infinite alternate-reverse;
-    }
-    @keyframes drift {
-      from { transform: translate(0, 0) scale(1); }
-      to   { transform: translate(40px, 30px) scale(1.1); }
     }
 
     .card {
-      width: min(640px, 100%);
-      background: var(--blur-bg);
-      backdrop-filter: blur(24px) saturate(180%);
-      -webkit-backdrop-filter: blur(24px) saturate(180%);
-      border: 1px solid var(--blur-bdr);
-      border-radius: 24px;
-      padding: 36px;
-      box-shadow:
-        0 8px 32px rgba(0,0,0,0.4),
-        inset 0 1px 0 rgba(255,255,255,0.15);
+      width: min(680px, 100%);
+      background: var(--surface);
       position: relative;
-      z-index: 1;
+      border: 1px solid var(--yellow);
+      /* Cyberpunk cut corners */
+      clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+      box-shadow:
+        0 0 0 1px rgba(245,230,66,0.1),
+        0 0 40px rgba(245,230,66,0.07),
+        inset 0 0 40px rgba(0,0,0,0.5);
     }
 
-    /* Inner glow line at top */
+    /* Corner accents */
     .card::before {
       content: '';
       position: absolute;
-      top: 0; left: 10%; right: 10%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(167,139,250,0.8), transparent);
+      top: -1px; right: -1px;
+      width: 40px; height: 40px;
+      background: var(--yellow);
+      clip-path: polygon(0 0, 100% 0, 100% 30%, 30% 100%, 0 100%);
+      opacity: .15;
     }
 
-    .header {
+    .card::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: -1px;
+      width: 40px; height: 40px;
+      background: var(--magenta);
+      clip-path: polygon(0 0, 70% 0, 100% 70%, 100% 100%, 0 100%);
+      opacity: .15;
+    }
+
+    .top-bar {
+      background: var(--yellow);
+      padding: 5px 20px;
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 24px;
-      margin-bottom: 28px;
     }
 
-    .avatar-wrap {
+    .top-bar span {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: #000;
+      letter-spacing: .1em;
+    }
+
+    .body { padding: 26px 28px 22px; color: var(--text); }
+
+    /* Glitch name */
+    .name-wrap { position: relative; margin-bottom: 4px; }
+
+    .name {
+      font-size: clamp(28px, 6vw, 42px);
+      font-weight: 700;
+      color: var(--yellow);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      line-height: 1;
       position: relative;
-      flex-shrink: 0;
+      display: inline-block;
+    }
+
+    .name::before, .name::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+    }
+    .name::before {
+      color: var(--magenta);
+      animation: glitch-1 4s infinite;
+      clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+    }
+    .name::after {
+      color: var(--cyan);
+      animation: glitch-2 4s infinite;
+      clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+    }
+
+    @keyframes glitch-1 {
+      0%,89%,91%,100% { transform: translate(0); opacity: 0; }
+      90% { transform: translate(-3px, 1px); opacity: .8; }
+    }
+    @keyframes glitch-2 {
+      0%,87%,89%,100% { transform: translate(0); opacity: 0; }
+      88% { transform: translate(3px, -1px); opacity: .8; }
+    }
+
+    .title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--magenta);
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      margin: 8px 0 4px;
+    }
+
+    .location {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      color: var(--dim);
+      letter-spacing: .08em;
+    }
+
+    .flex-layout {
+      display: flex;
+      gap: 24px;
+      margin: 20px 0;
+      align-items: flex-start;
     }
 
     .avatar {
-      width: 88px;
-      height: 88px;
-      border-radius: 50%;
+      width: 90px;
+      height: 110px;
       object-fit: cover;
-      border: 2px solid rgba(255,255,255,0.25);
-      box-shadow: 0 0 0 4px rgba(167,139,250,0.2), 0 8px 24px rgba(0,0,0,0.4);
+      flex-shrink: 0;
+      border: 1px solid var(--yellow);
+      filter: contrast(1.1) saturate(0.2) brightness(0.85);
+      box-shadow: 4px 4px 0 var(--magenta);
     }
 
-    .status-dot {
-      position: absolute;
-      bottom: 4px; right: 4px;
-      width: 14px; height: 14px;
-      background: #4ade80;
-      border-radius: 50%;
-      border: 2px solid rgba(0,0,0,0.4);
-      box-shadow: 0 0 8px #4ade80;
-      animation: pulse-green 2s infinite;
-    }
-    @keyframes pulse-green {
-      0%,100% { box-shadow: 0 0 6px #4ade80; }
-      50%      { box-shadow: 0 0 16px #4ade80; }
-    }
-
-    .headline h1 {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: -.01em;
-      line-height: 1.2;
-    }
-
-    .headline h2 {
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--accent);
-      margin-top: 4px;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-    }
-
-    .headline .location {
-      font-size: 12.5px;
-      color: var(--text-dim);
-      margin-top: 6px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
+    .meta { flex: 1; }
 
     .bio {
       font-size: 13.5px;
-      color: var(--text-dim);
-      line-height: 1.65;
-      margin-bottom: 22px;
+      color: rgba(232,232,240,0.7);
+      line-height: 1.6;
+      margin-bottom: 14px;
     }
 
-    .divider {
+    /* Neon separator */
+    .neon-line {
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
-      margin: 18px 0;
+      background: linear-gradient(90deg, var(--yellow), var(--magenta), var(--cyan), transparent);
+      margin: 16px 0;
     }
+
+    /* Data rows */
+    .data-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0;
+      border-bottom: 1px solid #111118;
+      font-size: 13.5px;
+    }
+
+    .data-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--cyan);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .data-val { color: var(--text); font-weight: 600; }
 
     /* Skills */
     .skills {
       display: flex;
       flex-wrap: wrap;
-      gap: 7px;
-      margin-bottom: 22px;
+      gap: 6px;
+      margin: 14px 0;
     }
 
     .skill-tag {
-      background: var(--pill-bg);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 20px;
-      padding: 4px 12px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--accent);
-      letter-spacing: .02em;
-      backdrop-filter: blur(8px);
-    }
-
-    /* Info panels */
-    .panels {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 22px;
-    }
-
-    .panel {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 14px;
-      padding: 14px 16px;
-      backdrop-filter: blur(8px);
-    }
-
-    .panel-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--accent2);
-      margin-bottom: 7px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .panel-content {
-      font-size: 12.5px;
-      color: var(--text);
-      line-height: 1.55;
-      font-weight: 400;
-    }
-
-    .panel.full { grid-column: 1 / -1; }
-
-    /* Links */
-    .links {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .link-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 16px;
-      border-radius: 99px;
-      font-size: 12.5px;
-      font-weight: 700;
-      text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.07);
-      color: var(--text);
-      transition: background .2s, border-color .2s, transform .15s;
-    }
-    .link-btn:hover {
-      background: rgba(255,255,255,0.14);
-      border-color: rgba(255,255,255,0.35);
-      transform: translateY(-1px);
-    }
-
-    .footer {
-      text-align: center;
+      background: transparent;
+      border: 1px solid rgba(245,230,66,0.5);
+      color: var(--yellow);
       font-size: 11px;
-      color: rgba(255,255,255,0.3);
-      margin-top: 18px;
+      font-family: 'Share Tech Mono', monospace;
+      letter-spacing: .08em;
+      padding: 3px 10px;
+      text-transform: uppercase;
+      clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
     }
+
+    /* Info boxes */
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
+
+    .info-box {
+      border: 1px solid #1a1a22;
+      border-left: 2px solid var(--cyan);
+      padding: 10px 12px;
+      background: rgba(0,245,255,0.02);
+    }
+    .info-box.joke { grid-column: 1 / -1; border-left-color: var(--magenta); background: rgba(255,45,120,0.02); }
+
+    .info-title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--cyan);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .info-box.joke .info-title { color: var(--magenta); }
+
+    .info-val { font-size: 12.5px; color: rgba(232,232,240,0.8); line-height: 1.55; }
+
+    .footer-bar {
+      background: rgba(245,230,66,0.05);
+      border-top: 1px solid #1a1a22;
+      padding: 8px 28px;
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10.5px;
+      color: var(--dim);
+      letter-spacing: .06em;
+    }
+
+    a { color: var(--yellow); text-decoration: none; }
+    a:hover { color: var(--cyan); }
 
     @media (max-width: 500px) {
-      .card { padding: 24px 20px; }
-      .panels { grid-template-columns: 1fr; }
-      .header { flex-direction: column; text-align: center; }
-      .headline .location { justify-content: center; }
+      .flex-layout { flex-direction: column; }
+      .info-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <div class="card">
-    <div class="header">
-      <div class="avatar-wrap">
+    <div class="top-bar">
+      <span>// DEVCARD_SYS v2.0.77</span>
+      <span>STATUS: ONLINE ▮</span>
+    </div>
+
+    <div class="body">
+      <div class="name-wrap">
+        <div class="name" data-text="Prapan Biswas">Prapan Biswas</div>
+      </div>
+      <div class="title">▶ Full-Stack &amp; Embedded Developer</div>
+      <div class="location">📍 Khulna, Bangladesh</div>
+
+      <div class="flex-layout">
         <img class="avatar" src="./images/profile.jpg" alt="Prapan Biswas">
-        <span class="status-dot" title="Available"></span>
+        <div class="meta">
+          <p class="bio">Building creative things for the web and beyond. Passionate about clean code, great UX, and open source.</p>
+          <div class="skills"><span class="skill-tag">JavaScript</span><span class="skill-tag">Node.js</span><span class="skill-tag">React</span><span class="skill-tag">Python</span><span class="skill-tag">ESP32</span><span class="skill-tag">C++</span><span class="skill-tag">GitHub Actions</span></div>
+        </div>
       </div>
-      <div class="headline">
-        <h1>Prapan Biswas</h1>
-        <h2>Full-Stack &amp; Embedded Developer</h2>
-        <div class="location">📍 Khulna, Bangladesh</div>
+
+      <div class="neon-line"></div>
+
+      <div class="data-row">
+        <span class="data-label">GITHUB</span>
+        <a class="data-val" href="https://github.com/prapanbiswas">https://github.com/prapanbiswas</a>
+      </div>
+      <div class="data-row">
+        <span class="data-label">CONTACT</span>
+        <span class="data-val">prapanbiswas@gmail.com</span>
+      </div>
+
+      <div class="neon-line"></div>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <div class="info-title">☀️ Live Weather</div>
+          <div class="info-val">☀️ 33°C · clear sky · Feels 33°C · 💧 37% · 💨 4.5 m/s</div>
+        </div>
+        <div class="info-box joke">
+          <div class="info-title">⚡ Dev Joke</div>
+          <div class="info-val">Knock knock.
+Who&#039;s there?
+Recursion.
+Recursion who?
+Knock knock.</div>
+        </div>
       </div>
     </div>
 
-    <p class="bio">Building creative things for the web and beyond. Passionate about clean code, great UX, and open source.</p>
-
-    <div class="skills"><span class="skill-tag">JavaScript</span><span class="skill-tag">Node.js</span><span class="skill-tag">React</span><span class="skill-tag">Python</span><span class="skill-tag">ESP32</span><span class="skill-tag">C++</span><span class="skill-tag">GitHub Actions</span></div>
-
-    <div class="divider"></div>
-
-    <div class="panels">
-      <div class="panel">
-        <div class="panel-label">☁️ Live Weather</div>
-        <div class="panel-content">☁️ 25°C · scattered clouds · Feels 25°C · 💧 52% · 💨 2.5 m/s</div>
-      </div>
-      <div class="panel full">
-        <div class="panel-label">🃏 Dev Joke</div>
-        <div class="panel-content">If Bill Gates had a dime for every time Windows crashed ... Oh wait, he does.</div>
-      </div>
+    <div class="footer-bar">
+      <span>LAST_SYNC: 06 Apr 2026, 09:19 am BDT</span>
+      <span>TPL://03-cyberpunk</span>
     </div>
-
-    <div class="links">
-      <a class="link-btn" href="https://github.com/prapanbiswas">⚡ GitHub</a>
-      <a class="link-btn" href="https://linkedin.com/in/yourusername">🔗 LinkedIn</a>
-      <a class="link-btn" href="mailto:prapanbiswas@gmail.com">✉️ Email</a>
-    </div>
-
-    <div class="footer">Last updated: 06 Apr 2026, 05:40 am BDT &nbsp;·&nbsp; 02-glassmorphism</div>
   </div>
 </body>
 </html>
