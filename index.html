@@ -3,19 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prapan Biswas</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <title>Prapan Biswas — Developer Card</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --ink:     #1a1a1a;
-      --ink-mid: #5a5a5a;
-      --ink-dim: #aaaaaa;
-      --rule:    #e0e0e0;
-      --bg:      #f7f5f0;
-      --card:    #fefefe;
-      --accent:  #2c3e50;
+      --primary:      #4527a0;
+      --primary-dark: #1a0072;
+      --accent:       #1de9b6;
+      --on-primary:   #ffffff;
+      --surface:      #ffffff;
+      --bg:           #ede7f6;
+      --text:         #212121;
+      --text2:        #757575;
+      --divider:      #e0e0e0;
+      --shadow1: 0 2px 4px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
+      --shadow2: 0 4px 8px rgba(0,0,0,0.14), 0 2px 4px rgba(0,0,0,0.08);
+      --shadow3: 0 8px 16px rgba(0,0,0,0.14), 0 4px 8px rgba(0,0,0,0.08);
     }
 
     body {
@@ -24,238 +29,242 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 40px 24px;
-      font-family: 'DM Sans', sans-serif;
+      padding: 24px;
+      font-family: 'Roboto', sans-serif;
     }
 
     .card {
-      width: min(620px, 100%);
-      background: var(--card);
-      padding: 56px 60px;
-      border: 1px solid var(--rule);
-      position: relative;
+      width: min(600px, 100%);
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: var(--shadow3);
+      overflow: hidden;
     }
 
-    /* Fine top rule with dot */
-    .card::before {
+    /* Hero header */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      padding: 28px 28px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
       content: '';
       position: absolute;
-      top: 0; left: 60px; right: 60px;
-      height: 2px;
-      background: var(--ink);
+      top: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
     }
 
-    .masthead {
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 20px; left: -40px;
+      width: 140px; height: 140px;
+      background: rgba(29,233,182,0.08);
+      border-radius: 50%;
+    }
+
+    .hero-row {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 40px;
-    }
-
-    .name-block h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(32px, 5vw, 46px);
-      font-weight: 300;
-      letter-spacing: -.01em;
-      color: var(--ink);
-      line-height: 1.1;
-    }
-
-    .name-block .title {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--ink-mid);
-      margin-top: 10px;
+      align-items: flex-end;
+      gap: 20px;
+      position: relative;
+      z-index: 1;
     }
 
     .avatar {
-      width: 72px;
-      height: 72px;
-      object-fit: cover;
+      width: 88px;
+      height: 88px;
       border-radius: 50%;
-      filter: grayscale(0.3);
+      object-fit: cover;
+      border: 3px solid rgba(255,255,255,0.9);
+      box-shadow: var(--shadow2);
+      flex-shrink: 0;
+      margin-bottom: -20px;
+    }
+
+    .hero-text { padding-bottom: 22px; flex: 1; }
+
+    .hero-text h1 {
+      color: #fff;
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: .01em;
+      line-height: 1.3;
+    }
+
+    .hero-text .subtitle {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: .04em;
+      margin-top: 2px;
+    }
+
+    .hero-text .location {
+      color: rgba(255,255,255,0.7);
+      font-size: 12px;
+      font-weight: 300;
+      margin-top: 4px;
+    }
+
+    .body { padding: 32px 28px 24px; }
+
+    .bio {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+
+    .divider { height: 1px; background: var(--divider); margin: 18px 0; }
+
+    /* Chip row */
+    .skills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+
+    .skill-tag {
+      background: #ede7f6;
+      color: var(--primary);
+      border-radius: 16px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: .02em;
+    }
+
+    /* Info cards grid */
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+
+    .info-card {
+      background: #f5f5f5;
+      border-radius: 8px;
+      padding: 14px 16px;
+      box-shadow: var(--shadow1);
+    }
+
+    .info-card.wide { grid-column: 1 / -1; }
+
+    .ic-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .ic-body { font-size: 13px; color: var(--text2); line-height: 1.55; }
+
+    /* Contact row */
+    .contact-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .contact-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--divider);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      box-shadow: var(--shadow1);
+      transition: box-shadow .2s, transform .15s;
+    }
+    .contact-chip:hover {
+      box-shadow: var(--shadow2);
+      transform: translateY(-1px);
+      color: var(--primary);
+    }
+
+    /* FAB-style accent dot */
+    .fab {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px rgba(29,233,182,0.2);
       flex-shrink: 0;
     }
 
-    .rule { height: 1px; background: var(--rule); margin: 24px 0; }
-    .rule-double {
-      height: 1px;
-      background: var(--rule);
-      margin: 24px 0 0;
-      position: relative;
-    }
-    .rule-double::before {
-      content: '';
-      position: absolute;
-      top: 3px;
-      left: 0; right: 0;
-      height: 1px;
-      background: var(--rule);
-    }
-
-    .bio {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 17px;
-      font-style: italic;
-      color: var(--ink-mid);
-      line-height: 1.75;
-      margin-bottom: 28px;
-    }
-
-    /* Two-column layout */
-    .columns {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-    }
-
-    .col { padding: 0; }
-    .col:first-child { padding-right: 28px; border-right: 1px solid var(--rule); }
-    .col:last-child  { padding-left: 28px; }
-
-    .col-label {
-      font-size: 9.5px;
-      font-weight: 500;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--ink-dim);
-      margin-bottom: 14px;
-    }
-
-    .contact-item {
-      font-size: 12.5px;
-      color: var(--ink-mid);
-      margin-bottom: 8px;
-      display: flex;
-      gap: 10px;
-    }
-
-    .contact-item .ci-label {
-      font-weight: 500;
-      color: var(--ink);
-      min-width: 60px;
-    }
-
-    a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
-    a:hover { color: var(--ink); }
-
-    /* Skills - refined chip style */
-    .skills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 14px;
-    }
-
-    .skill-tag {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .06em;
-      color: var(--ink-mid);
-      border: 1px solid var(--rule);
-      padding: 3px 10px;
-    }
-
-    /* Info panels */
-    .info-section { margin-top: 28px; }
-
-    .info-block { margin-bottom: 20px; }
-
-    .info-block .ilabel {
-      font-size: 9.5px;
-      font-weight: 500;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--ink-dim);
-      margin-bottom: 8px;
-    }
-
-    .info-block .ivalue {
-      font-size: 13px;
-      color: var(--ink-mid);
-      line-height: 1.65;
-    }
-
     .footer {
-      margin-top: 36px;
-      padding-top: 18px;
-      border-top: 1px solid var(--rule);
+      padding: 12px 28px;
+      background: #fafafa;
+      border-top: 1px solid var(--divider);
       display: flex;
       justify-content: space-between;
-      font-size: 10px;
-      font-weight: 300;
-      letter-spacing: .06em;
-      color: var(--ink-dim);
+      font-size: 11px;
+      color: #bdbdbd;
     }
 
-    @media (max-width: 520px) {
-      .card { padding: 36px 28px; }
-      .columns { grid-template-columns: 1fr; }
-      .col:first-child { padding-right: 0; border-right: none; border-bottom: 1px solid var(--rule); padding-bottom: 20px; margin-bottom: 20px; }
-      .col:last-child { padding-left: 0; }
-      .masthead { flex-direction: column-reverse; gap: 16px; }
+    @media (max-width: 480px) {
+      .grid { grid-template-columns: 1fr; }
+      .hero-row { flex-direction: column; align-items: flex-start; }
+      .avatar { margin-bottom: -16px; }
     }
   </style>
 </head>
 <body>
   <div class="card">
-    <div class="masthead">
-      <div class="name-block">
-        <h1>Prapan Biswas</h1>
-        <div class="title">Full-Stack &amp; Embedded Developer</div>
-      </div>
-      <img class="avatar" src="./images/profile.jpg" alt="Prapan Biswas">
-    </div>
-
-    <p class="bio">Building creative things for the web and beyond. Passionate about clean code, great UX, and open source.</p>
-
-    <div class="rule"></div>
-
-    <div class="columns">
-      <div class="col">
-        <div class="col-label">Contact</div>
-        <div class="contact-item">
-          <span class="ci-label">Location</span>
-          <span>Khulna, Bangladesh</span>
+    <div class="hero">
+      <div class="hero-row">
+        <img class="avatar" src="./images/profile.jpg" alt="Prapan Biswas">
+        <div class="hero-text">
+          <h1>Prapan Biswas</h1>
+          <div class="subtitle">Full-Stack &amp; Embedded Developer</div>
+          <div class="location">📍 Khulna, Bangladesh</div>
         </div>
-        <div class="contact-item">
-          <span class="ci-label">GitHub</span>
-          <a href="https://github.com/prapanbiswas">https://github.com/prapanbiswas</a>
-        </div>
-        <div class="contact-item">
-          <span class="ci-label">Email</span>
-          <span>prapanbiswas@gmail.com</span>
-        </div>
-      </div>
-      <div class="col">
-        <div class="col-label">Technologies</div>
-        <div class="skills"><span class="skill-tag">JavaScript</span><span class="skill-tag">Node.js</span><span class="skill-tag">React</span><span class="skill-tag">Python</span><span class="skill-tag">ESP32</span><span class="skill-tag">C++</span><span class="skill-tag">GitHub Actions</span></div>
       </div>
     </div>
 
-    <div class="rule-double" style="margin-top:24px;margin-bottom:0;"></div>
-    <div style="height:16px"></div>
+    <div class="body">
+      <p class="bio">Building creative things for the web and beyond. Passionate about clean code, great UX, and open source.</p>
 
-    <div class="info-section">
-      <div class="info-block">
-        <div class="ilabel">☀️ Current Weather · Khulna</div>
-        <div class="ivalue">☀️ 22°C · clear sky · Feels 22°C · 💧 85% · 💨 2.6 m/s</div>
-      </div>
-      <div class="info-block">
-        <div class="ilabel">Today's Dev Joke</div>
-        <div class="ivalue">
-          <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;">
-            "I have a joke about Stack Overflow, but you would say it&#039;s a duplicate."
-          </span>
+      <div class="skills"><span class="skill-tag">JavaScript</span><span class="skill-tag">Node.js</span><span class="skill-tag">React</span><span class="skill-tag">Python</span><span class="skill-tag">ESP32</span><span class="skill-tag">C++</span><span class="skill-tag">GitHub Actions</span></div>
+
+      <div class="divider"></div>
+
+      <div class="grid">
+        <div class="info-card">
+          <div class="ic-title"><span class="fab"></span> Weather</div>
+          <div class="ic-body">☀️ 28°C · clear sky · Feels 31°C · 💧 67% · 💨 3.4 m/s</div>
         </div>
+        <div class="info-card wide">
+          <div class="ic-title">🃏 Developer Joke</div>
+          <div class="ic-body">Judge: &quot;I sentence you to the maximum punishment...&quot;
+Me (thinking): &quot;Please be death, please be death...&quot;
+Judge: &quot;Learn Java!&quot;
+Me: &quot;Damn.&quot;</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="contact-row">
+        <a class="contact-chip" href="https://github.com/prapanbiswas">⚡ GitHub</a>
+        <a class="contact-chip" href="https://linkedin.com/in/yourusername">🔗 LinkedIn</a>
+        <a class="contact-chip" href="mailto:prapanbiswas@gmail.com">✉️ Email</a>
       </div>
     </div>
 
     <div class="footer">
-      <span>08 Apr 2026, 05:42 am BDT</span>
-      <span>04-minimal</span>
+      <span>Updated: 08 Apr 2026, 08:54 am BDT</span>
+      <span>05-material-design</span>
     </div>
   </div>
 </body>
