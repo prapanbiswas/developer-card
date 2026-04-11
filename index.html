@@ -3,266 +3,324 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prapan Biswas</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>Prapan Biswas — The Developer Times</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --text:    #1a1035;
-      --text2:   #4a4070;
-      --text3:   #8878b0;
-      --card:    rgba(255,255,255,0.72);
-      --card-bd: rgba(255,255,255,0.9);
-      --pill1-bg: rgba(124,58,237,0.08);
-      --pill1-clr: #7c3aed;
+      --ink:     #111010;
+      --ink2:    #3a3636;
+      --ink3:    #7a7070;
+      --rule:    #c8c0b8;
+      --rule-hv: #888080;
+      --paper:   #f5f1ea;
+      --accent:  #8b0000;
     }
-
-    @property --a1 { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
-    @property --a2 { syntax: '<angle>'; initial-value: 60deg; inherits: false; }
-    @property --a3 { syntax: '<angle>'; initial-value: 120deg; inherits: false; }
 
     body {
+      background: #ddd8cf;
       min-height: 100vh;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      padding: 32px 20px;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      overflow: hidden;
-      position: relative;
+      padding: 40px 20px;
+      font-family: 'EB Garamond', serif;
     }
 
-    /* Aurora animated background */
-    .aurora {
-      position: fixed;
-      inset: 0;
-      background: #f0ecff;
-      z-index: 0;
+    .broadsheet {
+      width: min(700px, 100%);
+      background: var(--paper);
+      padding: 28px 36px 32px;
+      border: 1px solid var(--rule);
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.1), 8px 8px 0 rgba(0,0,0,0.05);
     }
 
-    .aurora::before {
-      content: '';
-      position: absolute;
-      inset: -50%;
-      background:
-        radial-gradient(ellipse 60% 40% at 30% 40%, rgba(167,139,250,0.55) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 50% at 70% 20%, rgba(96,165,250,0.45) 0%, transparent 55%),
-        radial-gradient(ellipse 70% 40% at 20% 80%, rgba(244,114,182,0.4) 0%, transparent 50%),
-        radial-gradient(ellipse 60% 50% at 80% 70%, rgba(52,211,153,0.35) 0%, transparent 50%),
-        radial-gradient(ellipse 40% 40% at 50% 50%, rgba(251,191,36,0.25) 0%, transparent 50%);
-      animation: aurora-shift 18s ease-in-out infinite alternate;
-      filter: blur(40px);
+    /* Masthead */
+    .masthead-rule { height: 3px; background: var(--ink); margin-bottom: 2px; }
+    .masthead-rule2 { height: 1px; background: var(--ink); margin-bottom: 10px; }
+
+    .masthead-header {
+      text-align: center;
+      padding: 6px 0 10px;
     }
 
-    @keyframes aurora-shift {
-      0%   { transform: translate(0,0) scale(1) rotate(0deg); }
-      33%  { transform: translate(3%,3%) scale(1.04) rotate(3deg); }
-      66%  { transform: translate(-2%,4%) scale(0.97) rotate(-2deg); }
-      100% { transform: translate(4%,-2%) scale(1.06) rotate(4deg); }
+    .paper-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 6vw, 48px);
+      font-weight: 900;
+      letter-spacing: -.01em;
+      color: var(--ink);
+      line-height: 1;
+      text-transform: uppercase;
     }
 
-    .card {
-      width: min(640px, 100%);
-      background: var(--card);
-      backdrop-filter: blur(20px) saturate(200%);
-      -webkit-backdrop-filter: blur(20px) saturate(200%);
-      border-radius: 28px;
-      border: 1px solid var(--card-bd);
-      box-shadow:
-        0 2px 0 rgba(255,255,255,0.8) inset,
-        0 20px 60px rgba(90,60,160,0.15),
-        0 4px 16px rgba(90,60,160,0.08);
-      padding: 36px 36px 28px;
-      position: relative;
-      z-index: 1;
-      overflow: hidden;
+    .tagline {
+      font-style: italic;
+      font-size: 13px;
+      color: var(--ink2);
+      margin-top: 4px;
+      letter-spacing: .04em;
     }
 
-    /* Prismatic top shine */
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 10%; right: 10%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.95), transparent);
-    }
-
-    .header {
+    .dateline {
       display: flex;
-      gap: 22px;
-      align-items: center;
-      margin-bottom: 26px;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--ink3);
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 8px;
+      letter-spacing: .04em;
     }
+
+    /* Layout */
+    .main-rule { height: 2px; background: var(--ink); margin: 14px 0 0; }
+    .main-rule-thin { height: 1px; background: var(--ink); margin: 0 0 14px; }
+
+    .headline-wrap { text-align: center; padding: 16px 0 0; border-bottom: 2px solid var(--ink); margin-bottom: 16px; }
+
+    .headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 4vw, 36px);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.15;
+      letter-spacing: -.01em;
+    }
+
+    .deck {
+      font-style: italic;
+      font-size: 15px;
+      color: var(--ink2);
+      margin-top: 8px;
+      padding-bottom: 14px;
+      line-height: 1.45;
+    }
+
+    /* Two-column layout */
+    .columns {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0 24px;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 18px;
+      margin-bottom: 18px;
+    }
+
+    .col-photo { border-right: 1px solid var(--rule); padding-right: 24px; }
 
     .avatar {
-      width: 84px;
-      height: 84px;
-      border-radius: 22px;
+      width: 120px;
+      height: 140px;
       object-fit: cover;
-      flex-shrink: 0;
-      border: 2px solid rgba(255,255,255,0.8);
-      box-shadow:
-        0 8px 24px rgba(90,60,160,0.2),
-        0 2px 6px rgba(0,0,0,0.1),
-        0 0 0 4px rgba(167,139,250,0.15);
+      filter: grayscale(100%) contrast(1.1);
+      display: block;
     }
 
-    .name-area h1 {
-      font-size: clamp(22px,4vw,30px);
-      font-weight: 800;
-      color: var(--text);
-      letter-spacing: -.02em;
-      line-height: 1.15;
-    }
-
-    .name-area .role {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--pill1-clr);
+    .photo-caption {
+      font-style: italic;
+      font-size: 11px;
+      color: var(--ink3);
       margin-top: 5px;
-      display: inline-block;
-      background: var(--pill1-bg);
-      padding: 3px 10px;
-      border-radius: 20px;
+      text-align: center;
+      max-width: 120px;
     }
 
-    .name-area .loc {
-      font-size: 12.5px;
-      color: var(--text3);
-      margin-top: 7px;
+    .col-text {}
+
+    .byline {
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink3);
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 6px;
+    }
+    .byline strong { color: var(--ink2); }
+
+    .body-copy {
+      font-size: 14.5px;
+      color: var(--ink);
+      line-height: 1.72;
+      column-count: 1;
     }
 
-    .bio {
-      font-size: 14px;
-      color: var(--text2);
-      line-height: 1.7;
-      margin-bottom: 22px;
+    .drop-cap::first-letter {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.8em;
+      font-weight: 700;
+      float: left;
+      line-height: .8;
+      padding-right: 6px;
+      margin-top: 4px;
+      color: var(--ink);
     }
 
-    .rule {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(124,58,237,0.2), rgba(59,130,246,0.2), transparent);
-      margin: 18px 0;
+    /* Skills list — inline */
+    .skills-inline {
+      font-style: italic;
+      color: var(--ink3);
+      font-size: 13px;
+      margin-top: 8px;
     }
-
-    /* Skills */
-    .skills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
 
     .skill-tag {
-      background: rgba(124,58,237,0.07);
-      border: 1px solid rgba(124,58,237,0.18);
-      color: var(--pill1-clr);
-      border-radius: 20px;
-      padding: 5px 13px;
-      font-size: 12.5px;
-      font-weight: 600;
-      backdrop-filter: blur(8px);
+      display: inline;
+      font-style: normal;
+      font-weight: 500;
+      color: var(--ink2);
     }
+    .skill-tag::after { content: ' ·  '; color: var(--rule-hv); }
+    .skill-tag:last-child::after { content: ''; }
 
-    /* Live info bubbles */
-    .bubbles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 22px; }
-
-    .bubble {
-      background: rgba(255,255,255,0.65);
-      border: 1px solid rgba(255,255,255,0.9);
-      border-radius: 16px;
-      padding: 14px 16px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 4px 16px rgba(90,60,160,0.07);
-    }
-
-    .bubble.wide { grid-column: 1 / -1; }
-
-    .bubble-lbl {
-      font-size: 10.5px;
+    /* Section header */
+    .section-hed {
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
       font-weight: 700;
-      letter-spacing: .1em;
       text-transform: uppercase;
-      color: var(--text3);
-      margin-bottom: 7px;
+      letter-spacing: .08em;
+      color: var(--ink);
+      border-top: 2px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+      padding: 4px 0;
+      margin-bottom: 10px;
     }
 
-    .bubble-val { font-size: 13px; color: var(--text2); line-height: 1.55; }
+    .aside-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
 
-    /* Social pills */
-    .socials { display: flex; gap: 8px; flex-wrap: wrap; }
+    .aside-col { padding: 0 14px 0 0; }
+    .aside-col:last-child { padding: 0 0 0 14px; border-left: 1px solid var(--rule); }
 
-    .social-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 9px 18px;
-      border-radius: 99px;
+    .aside-hed {
+      font-family: 'Playfair Display', serif;
       font-size: 13px;
       font-weight: 700;
-      text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.8);
-      background: rgba(255,255,255,0.6);
-      color: var(--text);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 2px 8px rgba(90,60,160,0.08);
-      transition: background .2s, transform .15s, box-shadow .2s;
-    }
-    .social-pill:hover {
-      background: rgba(255,255,255,0.9);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(90,60,160,0.15);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--accent);
+      margin-bottom: 8px;
     }
 
-    .footer {
+    .aside-body {
+      font-size: 13.5px;
+      color: var(--ink2);
+      line-height: 1.65;
+      font-style: italic;
+    }
+
+    .pull-quote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 15px;
+      color: var(--ink);
+      border-top: 2px solid var(--ink);
+      border-bottom: 2px solid var(--ink);
+      padding: 12px 0;
       text-align: center;
-      font-size: 11px;
-      color: var(--text3);
-      margin-top: 20px;
-      font-weight: 500;
+      margin: 16px 0;
+      line-height: 1.5;
     }
 
-    @media (max-width: 500px) {
-      .card { padding: 24px 20px 20px; }
-      .bubbles { grid-template-columns: 1fr; }
-      .header { flex-direction: column; align-items: flex-start; }
+    .contacts-row {
+      display: flex;
+      gap: 20px;
+      font-size: 12.5px;
+      color: var(--ink2);
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    .contacts-row a { color: var(--ink); text-decoration: underline; }
+
+    .footer-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      letter-spacing: .06em;
+      color: var(--ink3);
+      padding-top: 12px;
+      border-top: 1px solid var(--rule);
+      margin-top: 18px;
+    }
+
+    @media (max-width: 520px) {
+      .broadsheet { padding: 20px 20px 24px; }
+      .columns { grid-template-columns: 1fr; }
+      .col-photo { border-right: none; padding-right: 0; border-bottom: 1px solid var(--rule); padding-bottom: 16px; margin-bottom: 16px; display: flex; gap: 16px; align-items: flex-start; }
+      .aside-grid { grid-template-columns: 1fr; }
+      .aside-col:last-child { padding: 12px 0 0; border-left: none; border-top: 1px solid var(--rule); margin-top: 12px; }
     }
   </style>
 </head>
 <body>
-  <div class="aurora"></div>
+  <div class="broadsheet">
+    <div class="masthead-rule"></div>
+    <div class="masthead-rule2"></div>
 
-  <div class="card">
-    <div class="header">
-      <img class="avatar" src="./images/profile.jpg" alt="Prapan Biswas">
-      <div class="name-area">
-        <h1>Prapan Biswas</h1>
-        <span class="role">Full-Stack &amp; Embedded Developer</span>
-        <div class="loc">📍 Khulna, Bangladesh</div>
+    <div class="masthead-header">
+      <div class="paper-name">The Developer Times</div>
+      <div class="tagline">All The Code That's Fit To Print — Serving The Engineering Community Since Always</div>
+    </div>
+
+    <div class="dateline">
+      <span>Khulna, Bangladesh</span>
+      <span>Updated: 11 Apr 2026, 08:45 am BDT</span>
+      <span>Template: 08-newspaper-classic</span>
+    </div>
+
+    <div class="main-rule"></div>
+    <div class="main-rule-thin"></div>
+
+    <div class="headline-wrap">
+      <div class="headline">Prapan Biswas</div>
+      <div class="deck">Full-Stack &amp; Embedded Developer · Khulna, Bangladesh</div>
+    </div>
+
+    <div class="columns">
+      <div class="col-photo">
+        <img class="avatar" src="./images/profile.jpg" alt="Prapan Biswas">
+        <div class="photo-caption">Prapan Biswas, on location.</div>
+      </div>
+      <div class="col-text">
+        <div class="byline">By <strong>Prapan Biswas</strong> — Staff Developer</div>
+        <p class="body-copy drop-cap">Building creative things for the web and beyond. Passionate about clean code, great UX, and open source.</p>
+        <div class="contacts-row">
+          <span>✦ <a href="https://github.com/prapanbiswas">GitHub</a></span>
+          <span>✦ <a href="https://linkedin.com/in/yourusername">LinkedIn</a></span>
+          <span>✦ <a href="mailto:prapanbiswas@gmail.com">prapanbiswas@gmail.com</a></span>
+        </div>
+        <div class="skills-inline">
+          Technologies: <span class="skill-tag">JavaScript</span><span class="skill-tag">Node.js</span><span class="skill-tag">React</span><span class="skill-tag">Python</span><span class="skill-tag">ESP32</span><span class="skill-tag">C++</span><span class="skill-tag">GitHub Actions</span>
+        </div>
       </div>
     </div>
 
-    <p class="bio">Building creative things for the web and beyond. Passionate about clean code, great UX, and open source.</p>
+    <div class="section-hed">Live Dispatches</div>
 
-    <div class="skills"><span class="skill-tag">JavaScript</span><span class="skill-tag">Node.js</span><span class="skill-tag">React</span><span class="skill-tag">Python</span><span class="skill-tag">ESP32</span><span class="skill-tag">C++</span><span class="skill-tag">GitHub Actions</span></div>
-
-    <div class="rule"></div>
-
-    <div class="bubbles">
-      <div class="bubble">
-        <div class="bubble-lbl">☀️ Weather · Khulna</div>
-        <div class="bubble-val">☀️ 23°C · clear sky · Feels 24°C · 💧 80% · 💨 2.8 m/s</div>
+    <div class="aside-grid">
+      <div class="aside-col">
+        <div class="aside-hed">☀️ Weather Report</div>
+        <p class="aside-body">☀️ 30°C · clear sky · Feels 31°C · 💧 47% · 💨 3.1 m/s</p>
       </div>
-      <div class="bubble wide">
-        <div class="bubble-lbl">🃏 Developer Joke</div>
-        <div class="bubble-val">A SQL statement walks into a bar and sees two tables.
-It approaches, and asks &quot;may I join you?&quot;</div>
+      <div class="aside-col">
+        <div class="aside-hed">🃏 Developer's Corner</div>
+        <p class="aside-body">"&quot;Knock, knock.&quot;
+&quot;Who&#039;s there?&quot;
+
+[very long pause]
+
+&quot;Java.&quot;"</p>
       </div>
     </div>
 
-    <div class="socials">
-      <a class="social-pill" href="https://github.com/prapanbiswas">⚡ GitHub</a>
-      <a class="social-pill" href="https://linkedin.com/in/yourusername">🔗 LinkedIn</a>
-      <a class="social-pill" href="mailto:prapanbiswas@gmail.com">✉️ Email</a>
+    <div class="footer-line">
+      <span>© The Developer Times. All bugs reserved.</span>
+      <span>git push origin main</span>
     </div>
-
-    <div class="footer">Updated 11 Apr 2026, 05:41 am BDT · 07-aurora-gradient</div>
   </div>
 </body>
 </html>
