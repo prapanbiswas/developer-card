@@ -3,307 +3,265 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prapan Biswas — Developer Card</title>
-  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <title>Prapan Biswas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --blue:    #00b4fc;
-      --violet:  #b44aff;
-      --pink:    #ff4aac;
-      --bg:      #050810;
-      --surface: #090d1a;
-      --surface2:#0d1220;
-      --text:    #dde8ff;
-      --dim:     #4a5580;
+      --text:    #1a1035;
+      --text2:   #4a4070;
+      --text3:   #8878b0;
+      --card:    rgba(255,255,255,0.72);
+      --card-bd: rgba(255,255,255,0.9);
+      --pill1-bg: rgba(124,58,237,0.08);
+      --pill1-clr: #7c3aed;
     }
 
+    @property --a1 { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+    @property --a2 { syntax: '<angle>'; initial-value: 60deg; inherits: false; }
+    @property --a3 { syntax: '<angle>'; initial-value: 120deg; inherits: false; }
+
     body {
-      background: var(--bg);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
-      font-family: 'Exo 2', sans-serif;
+      padding: 32px 20px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       overflow: hidden;
+      position: relative;
     }
 
-    /* Subtle star field */
-    body::before {
-      content: '';
+    /* Aurora animated background */
+    .aurora {
       position: fixed;
       inset: 0;
-      background-image:
-        radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.3) 0%, transparent 100%),
-        radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.2) 0%, transparent 100%),
-        radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,0.25) 0%, transparent 100%),
-        radial-gradient(1px 1px at 10% 90%, rgba(255,255,255,0.15) 0%, transparent 100%),
-        radial-gradient(1px 1px at 90% 55%, rgba(255,255,255,0.2) 0%, transparent 100%);
-      pointer-events: none;
+      background: #f0ecff;
+      z-index: 0;
+    }
+
+    .aurora::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      background:
+        radial-gradient(ellipse 60% 40% at 30% 40%, rgba(167,139,250,0.55) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 70% 20%, rgba(96,165,250,0.45) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 40% at 20% 80%, rgba(244,114,182,0.4) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 50% at 80% 70%, rgba(52,211,153,0.35) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 40% at 50% 50%, rgba(251,191,36,0.25) 0%, transparent 50%);
+      animation: aurora-shift 18s ease-in-out infinite alternate;
+      filter: blur(40px);
+    }
+
+    @keyframes aurora-shift {
+      0%   { transform: translate(0,0) scale(1) rotate(0deg); }
+      33%  { transform: translate(3%,3%) scale(1.04) rotate(3deg); }
+      66%  { transform: translate(-2%,4%) scale(0.97) rotate(-2deg); }
+      100% { transform: translate(4%,-2%) scale(1.06) rotate(4deg); }
     }
 
     .card {
-      width: min(660px, 100%);
-      background: var(--surface);
-      border-radius: 16px;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(0,180,252,0.15);
+      width: min(640px, 100%);
+      background: var(--card);
+      backdrop-filter: blur(20px) saturate(200%);
+      -webkit-backdrop-filter: blur(20px) saturate(200%);
+      border-radius: 28px;
+      border: 1px solid var(--card-bd);
       box-shadow:
-        0 0 0 1px rgba(180,74,255,0.08),
-        0 0 50px rgba(0,180,252,0.06),
-        0 20px 60px rgba(0,0,0,0.7);
+        0 2px 0 rgba(255,255,255,0.8) inset,
+        0 20px 60px rgba(90,60,160,0.15),
+        0 4px 16px rgba(90,60,160,0.08);
+      padding: 36px 36px 28px;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
     }
 
-    /* Neon top border */
+    /* Prismatic top shine */
     .card::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--violet), var(--blue), var(--pink));
-      box-shadow: 0 0 12px rgba(0,180,252,0.6);
+      top: 0; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.95), transparent);
     }
 
-    /* Corner glow */
-    .card::after {
-      content: '';
-      position: absolute;
-      top: 0; right: 0;
-      width: 200px; height: 200px;
-      background: radial-gradient(circle at top right, rgba(180,74,255,0.12) 0%, transparent 70%);
-      pointer-events: none;
+    .header {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+      margin-bottom: 26px;
     }
-
-    .inner { padding: 30px 32px 24px; position: relative; z-index: 1; }
-
-    /* Avatar + name */
-    .top { display: flex; gap: 22px; margin-bottom: 24px; }
-
-    .avatar-wrap { position: relative; flex-shrink: 0; }
 
     .avatar {
-      width: 86px;
-      height: 86px;
-      border-radius: 12px;
+      width: 84px;
+      height: 84px;
+      border-radius: 22px;
       object-fit: cover;
-      border: 1px solid rgba(0,180,252,0.3);
+      flex-shrink: 0;
+      border: 2px solid rgba(255,255,255,0.8);
       box-shadow:
-        0 0 0 3px rgba(0,180,252,0.08),
-        0 0 20px rgba(0,180,252,0.15),
-        inset 0 0 12px rgba(0,0,0,0.3);
+        0 8px 24px rgba(90,60,160,0.2),
+        0 2px 6px rgba(0,0,0,0.1),
+        0 0 0 4px rgba(167,139,250,0.15);
     }
 
-    /* Scanning animation on avatar */
-    .avatar-wrap::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 12px;
-      background: linear-gradient(
-        0deg,
-        transparent 40%,
-        rgba(0,180,252,0.06) 50%,
-        transparent 60%
-      );
-      animation: scan 3s linear infinite;
-    }
-    @keyframes scan {
-      0%   { background-position: 0 -100%; }
-      100% { background-position: 0 400%; }
-    }
-
-    .name-block { padding-top: 4px; }
-
-    .name-block h1 {
-      font-size: clamp(22px, 4.5vw, 30px);
+    .name-area h1 {
+      font-size: clamp(22px,4vw,30px);
       font-weight: 800;
       color: var(--text);
-      letter-spacing: -.01em;
+      letter-spacing: -.02em;
       line-height: 1.15;
     }
 
-    .name-block .title {
+    .name-area .role {
       font-size: 13px;
-      font-weight: 500;
-      color: var(--blue);
+      font-weight: 600;
+      color: var(--pill1-clr);
       margin-top: 5px;
-      letter-spacing: .06em;
-      text-transform: uppercase;
+      display: inline-block;
+      background: var(--pill1-bg);
+      padding: 3px 10px;
+      border-radius: 20px;
     }
 
-    .name-block .location {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11.5px;
-      color: var(--dim);
-      margin-top: 6px;
+    .name-area .loc {
+      font-size: 12.5px;
+      color: var(--text3);
+      margin-top: 7px;
     }
 
     .bio {
       font-size: 14px;
-      color: rgba(221,232,255,0.65);
-      line-height: 1.65;
+      color: var(--text2);
+      line-height: 1.7;
       margin-bottom: 22px;
     }
 
-    /* Neon separator */
-    .neon-hr {
+    .rule {
       height: 1px;
-      background: linear-gradient(90deg, rgba(0,180,252,0.4), rgba(180,74,255,0.4), transparent);
+      background: linear-gradient(90deg, transparent, rgba(124,58,237,0.2), rgba(59,130,246,0.2), transparent);
       margin: 18px 0;
     }
 
     /* Skills */
-    .skills { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 22px; }
+    .skills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
 
     .skill-tag {
-      background: rgba(0,180,252,0.06);
-      border: 1px solid rgba(0,180,252,0.25);
-      color: var(--blue);
-      border-radius: 6px;
-      padding: 4px 12px;
-      font-size: 12px;
+      background: rgba(124,58,237,0.07);
+      border: 1px solid rgba(124,58,237,0.18);
+      color: var(--pill1-clr);
+      border-radius: 20px;
+      padding: 5px 13px;
+      font-size: 12.5px;
       font-weight: 600;
-      letter-spacing: .04em;
-      font-family: 'Share Tech Mono', monospace;
-      transition: background .2s, border-color .2s;
-    }
-    .skill-tag:hover {
-      background: rgba(0,180,252,0.12);
-      border-color: rgba(0,180,252,0.5);
+      backdrop-filter: blur(8px);
     }
 
-    /* Live panels */
-    .panels { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 22px; }
+    /* Live info bubbles */
+    .bubbles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 22px; }
 
-    .panel {
-      background: var(--surface2);
-      border-radius: 10px;
+    .bubble {
+      background: rgba(255,255,255,0.65);
+      border: 1px solid rgba(255,255,255,0.9);
+      border-radius: 16px;
       padding: 14px 16px;
-      border: 1px solid rgba(255,255,255,0.05);
-      position: relative;
-      overflow: hidden;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 16px rgba(90,60,160,0.07);
     }
 
-    .panel::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(0,180,252,0.4), transparent);
-    }
+    .bubble.wide { grid-column: 1 / -1; }
 
-    .panel.full { grid-column: 1 / -1; }
-    .panel.full::before { background: linear-gradient(90deg, transparent, rgba(180,74,255,0.4), transparent); }
-
-    .panel-lbl {
-      font-size: 10px;
+    .bubble-lbl {
+      font-size: 10.5px;
       font-weight: 700;
+      letter-spacing: .1em;
       text-transform: uppercase;
-      letter-spacing: .14em;
-      color: var(--blue);
-      margin-bottom: 8px;
-      font-family: 'Share Tech Mono', monospace;
+      color: var(--text3);
+      margin-bottom: 7px;
     }
-    .panel.full .panel-lbl { color: var(--violet); }
 
-    .panel-val { font-size: 13px; color: rgba(221,232,255,0.75); line-height: 1.55; }
+    .bubble-val { font-size: 13px; color: var(--text2); line-height: 1.55; }
 
-    /* Social links */
-    .links { display: flex; gap: 10px; flex-wrap: wrap; }
+    /* Social pills */
+    .socials { display: flex; gap: 8px; flex-wrap: wrap; }
 
-    .neon-btn {
-      padding: 8px 18px;
-      border: 1px solid rgba(0,180,252,0.4);
-      background: rgba(0,180,252,0.06);
-      color: var(--blue);
-      border-radius: 8px;
+    .social-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      border-radius: 99px;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       text-decoration: none;
-      letter-spacing: .04em;
-      transition: background .2s, border-color .2s, box-shadow .2s;
-      font-family: 'Exo 2', sans-serif;
+      border: 1px solid rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.6);
+      color: var(--text);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 8px rgba(90,60,160,0.08);
+      transition: background .2s, transform .15s, box-shadow .2s;
     }
-    .neon-btn:hover {
-      background: rgba(0,180,252,0.12);
-      border-color: rgba(0,180,252,0.7);
-      box-shadow: 0 0 14px rgba(0,180,252,0.25);
-    }
-    .neon-btn.v {
-      border-color: rgba(180,74,255,0.4);
-      background: rgba(180,74,255,0.06);
-      color: var(--violet);
-    }
-    .neon-btn.v:hover {
-      background: rgba(180,74,255,0.12);
-      border-color: rgba(180,74,255,0.7);
-      box-shadow: 0 0 14px rgba(180,74,255,0.25);
+    .social-pill:hover {
+      background: rgba(255,255,255,0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(90,60,160,0.15);
     }
 
     .footer {
-      padding: 12px 32px;
-      background: rgba(0,0,0,0.2);
-      border-top: 1px solid rgba(255,255,255,0.04);
-      display: flex;
-      justify-content: space-between;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 10.5px;
-      color: var(--dim);
+      text-align: center;
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 20px;
+      font-weight: 500;
     }
 
     @media (max-width: 500px) {
-      .inner { padding: 20px; }
-      .panels { grid-template-columns: 1fr; }
-      .top { flex-direction: column; }
+      .card { padding: 24px 20px 20px; }
+      .bubbles { grid-template-columns: 1fr; }
+      .header { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
 <body>
+  <div class="aurora"></div>
+
   <div class="card">
-    <div class="inner">
-      <div class="top">
-        <div class="avatar-wrap">
-          <img class="avatar" src="./images/profile.jpg" alt="Prapan Biswas">
-        </div>
-        <div class="name-block">
-          <h1>Prapan Biswas</h1>
-          <div class="title">Full-Stack &amp; Embedded Developer</div>
-          <div class="location">📍 Khulna, Bangladesh</div>
-        </div>
-      </div>
-
-      <p class="bio">Building creative things for the web and beyond. Passionate about clean code, great UX, and open source.</p>
-
-      <div class="skills"><span class="skill-tag">JavaScript</span><span class="skill-tag">Node.js</span><span class="skill-tag">React</span><span class="skill-tag">Python</span><span class="skill-tag">ESP32</span><span class="skill-tag">C++</span><span class="skill-tag">GitHub Actions</span></div>
-
-      <div class="neon-hr"></div>
-
-      <div class="panels">
-        <div class="panel">
-          <div class="panel-lbl">☁️ Live Weather</div>
-          <div class="panel-val">☁️ 26°C · broken clouds · Feels 27°C · 💧 88% · 💨 4.5 m/s</div>
-        </div>
-        <div class="panel full">
-          <div class="panel-lbl">⚡ Dev Joke</div>
-          <div class="panel-val">Have a great weekend!
-I hope your code behaves the same on Monday as it did on Friday.</div>
-        </div>
-      </div>
-
-      <div class="links">
-        <a class="neon-btn" href="https://github.com/prapanbiswas">⚡ GitHub</a>
-        <a class="neon-btn v" href="https://linkedin.com/in/yourusername">🔗 LinkedIn</a>
-        <a class="neon-btn" href="mailto:prapanbiswas@gmail.com">✉️ Email</a>
+    <div class="header">
+      <img class="avatar" src="./images/profile.jpg" alt="Prapan Biswas">
+      <div class="name-area">
+        <h1>Prapan Biswas</h1>
+        <span class="role">Full-Stack &amp; Embedded Developer</span>
+        <div class="loc">📍 Khulna, Bangladesh</div>
       </div>
     </div>
 
-    <div class="footer">
-      <span>sync: 20 Apr 2026, 05:43 am BDT</span>
-      <span>06-neon-dark</span>
+    <p class="bio">Building creative things for the web and beyond. Passionate about clean code, great UX, and open source.</p>
+
+    <div class="skills"><span class="skill-tag">JavaScript</span><span class="skill-tag">Node.js</span><span class="skill-tag">React</span><span class="skill-tag">Python</span><span class="skill-tag">ESP32</span><span class="skill-tag">C++</span><span class="skill-tag">GitHub Actions</span></div>
+
+    <div class="rule"></div>
+
+    <div class="bubbles">
+      <div class="bubble">
+        <div class="bubble-lbl">☀️ Weather · Khulna</div>
+        <div class="bubble-val">☀️ 36°C · clear sky · Feels 39°C · 💧 42% · 💨 7.5 m/s</div>
+      </div>
+      <div class="bubble wide">
+        <div class="bubble-lbl">🃏 Developer Joke</div>
+        <div class="bubble-val">Today I learned that changing random stuff until your program works is &quot;hacky&quot; and a &quot;bad coding practice&quot; but if you do it fast enough it&#039;s &quot;Machine Learning&quot; and pays 4x your current salary.</div>
+      </div>
     </div>
+
+    <div class="socials">
+      <a class="social-pill" href="https://github.com/prapanbiswas">⚡ GitHub</a>
+      <a class="social-pill" href="https://linkedin.com/in/yourusername">🔗 LinkedIn</a>
+      <a class="social-pill" href="mailto:prapanbiswas@gmail.com">✉️ Email</a>
+    </div>
+
+    <div class="footer">Updated 20 Apr 2026, 09:30 am BDT · 07-aurora-gradient</div>
   </div>
 </body>
 </html>
