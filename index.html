@@ -3,296 +3,362 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prapan Biswas</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <title>Prapan Biswas — Synthwave</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --black: #0a0a0a;
-      --white: #f5f3ee;
-      --yellow: #f5e642;
-      --red:   #e8001d;
-      --border: 3px solid #0a0a0a;
+      --hot-pink:  #ff2d78;
+      --cyan:      #00f0ff;
+      --orange:    #ff7b00;
+      --purple:    #2d0045;
+      --deep:      #07000f;
+      --text:      #f0e8ff;
+      --text-dim:  #a090c0;
     }
 
     body {
-      background: var(--yellow);
+      background: var(--deep);
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 30px 20px;
-      font-family: 'Space Grotesk', sans-serif;
+      padding: 20px;
+      overflow: hidden;
+      font-family: 'Exo 2', sans-serif;
     }
 
-    .frame {
-      width: min(700px, 100%);
-      background: var(--white);
-      border: var(--border);
-      box-shadow: 8px 8px 0 var(--black);
+    /* ── Synthwave Sky ── */
+    .sky {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        #07000f 0%,
+        #120020 25%,
+        #2d0045 45%,
+        #6b0062 58%,
+        #c4004a 70%,
+        #ff7b00 80%,
+        #ffca00 88%,
+        #ff7b00 90%,
+        #c4004a 92%,
+        transparent 100%
+      );
+      z-index: 0;
     }
 
-    /* Top strip */
-    .top-strip {
-      background: var(--black);
-      color: var(--yellow);
+    /* Sun */
+    .sun {
+      position: fixed;
+      bottom: 42%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #ffca00 0%, #ff7b00 50%, #c4004a 100%);
+      box-shadow:
+        0 0 40px rgba(255,123,0,0.6),
+        0 0 80px rgba(255,123,0,0.3),
+        0 0 160px rgba(255,45,120,0.2);
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    /* Sun stripes (horizon effect) */
+    .sun::after {
+      content: '';
+      position: absolute;
+      inset: 50% 0 0 0;
+      background: repeating-linear-gradient(
+        180deg,
+        var(--deep) 0px,
+        var(--deep) 4px,
+        transparent 4px,
+        transparent 8px
+      );
+      background-size: 100% 8px;
+    }
+
+    /* ── 3D Grid Floor ── */
+    .grid-floor {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200%;
+      height: 55%;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    .grid-floor::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,45,120,0.55) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,45,120,0.55) 1px, transparent 1px);
+      background-size: 80px 80px;
+      transform: perspective(300px) rotateX(70deg);
+      transform-origin: top center;
+      animation: grid-move 6s linear infinite;
+    }
+
+    @keyframes grid-move {
+      0%   { background-position: 0 0; }
+      100% { background-position: 0 80px; }
+    }
+
+    /* ── Card ── */
+    .card {
+      width: min(640px, 100%);
+      background: rgba(7, 0, 15, 0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,45,120,0.4);
+      border-radius: 4px;
+      position: relative;
+      z-index: 10;
+      box-shadow:
+        0 0 0 1px rgba(0,240,255,0.1),
+        0 0 60px rgba(255,45,120,0.15),
+        0 0 120px rgba(255,45,120,0.06),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    /* Neon top bar */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--hot-pink), var(--orange), transparent);
+      box-shadow: 0 0 12px var(--hot-pink);
+    }
+
+    .card-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 8px 20px;
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
+      border-bottom: 1px solid rgba(255,45,120,0.2);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      letter-spacing: .12em;
+      color: var(--hot-pink);
+      text-transform: uppercase;
+    }
+
+    .card-body { padding: 24px 26px 20px; }
+
+    .header-row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--hot-pink);
+      border-radius: 4px;
+      box-shadow:
+        0 0 12px rgba(255,45,120,0.35),
+        4px 4px 0 rgba(0,240,255,0.15);
+      filter: saturate(1.15);
+    }
+
+    .identity h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(18px, 4vw, 26px);
+      font-weight: 900;
+      color: var(--text);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      line-height: 1.15;
+      text-shadow: 0 0 20px rgba(0,240,255,0.3);
+    }
+
+    .identity .title {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--cyan);
+      margin-top: 5px;
       letter-spacing: .12em;
       text-transform: uppercase;
     }
 
-    .inner { display: grid; grid-template-columns: 200px 1fr; border-top: var(--border); }
-
-    /* Left rail */
-    .rail {
-      border-right: var(--border);
-      padding: 0;
-      display: flex;
-      flex-direction: column;
+    .identity .loc {
+      font-size: 11.5px;
+      color: var(--text-dim);
+      margin-top: 5px;
+      letter-spacing: .05em;
     }
 
-    .avatar {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      display: block;
-      border-bottom: var(--border);
-      filter: contrast(1.05);
+    .bio {
+      font-size: 13.5px;
+      color: var(--text-dim);
+      line-height: 1.65;
+      margin-bottom: 18px;
+      font-style: italic;
     }
 
-    .rail-block {
-      padding: 14px 16px;
-      border-bottom: var(--border);
+    /* Neon divider */
+    .neon-rule {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,45,120,0.5), rgba(0,240,255,0.5), transparent);
+      margin: 16px 0;
     }
 
-    .rail-label {
-      font-family: 'Space Mono', monospace;
+    /* Skills */
+    .skills { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 18px; }
+
+    .skill-tag {
+      background: rgba(255,45,120,0.06);
+      border: 1px solid rgba(255,45,120,0.35);
+      color: var(--hot-pink);
+      padding: 3px 11px;
+      font-size: 11.5px;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: .06em;
+      border-radius: 2px;
+    }
+
+    /* Data panels */
+    .panels { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+
+    .panel {
+      border: 1px solid rgba(0,240,255,0.15);
+      border-radius: 4px;
+      padding: 11px 13px;
+      background: rgba(0,240,255,0.02);
+      position: relative;
+    }
+
+    .panel.full { grid-column: 1 / -1; }
+    .panel.full { border-color: rgba(255,45,120,0.2); background: rgba(255,45,120,0.02); }
+
+    .p-lbl {
+      font-family: 'Orbitron', monospace;
       font-size: 9px;
       letter-spacing: .18em;
       text-transform: uppercase;
-      color: #666;
-      margin-bottom: 5px;
-    }
-
-    .rail-val {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--black);
-      word-break: break-all;
-    }
-
-    .rail-val a { color: var(--black); text-decoration: underline; text-underline-offset: 3px; }
-
-    /* Skills stacked */
-    .skills-list { display: flex; flex-direction: column; gap: 0; }
-
-    .skill-tag {
-      font-family: 'Space Mono', monospace;
-      font-size: 11.5px;
-      font-weight: 700;
-      padding: 5px 12px;
-      border-bottom: 1px solid rgba(0,0,0,0.12);
-      color: var(--black);
-      background: transparent;
-      transition: background .15s;
-    }
-    .skill-tag:nth-child(even) { background: rgba(0,0,0,0.03); }
-    .skill-tag:last-child { border-bottom: none; }
-
-    /* Main content */
-    .main-area { display: flex; flex-direction: column; }
-
-    .name-block {
-      padding: 20px 24px 16px;
-      border-bottom: var(--border);
-    }
-
-    .name-block h1 {
-      font-size: clamp(28px, 5vw, 44px);
-      font-weight: 700;
-      color: var(--black);
-      line-height: 1;
-      letter-spacing: -.02em;
-      text-transform: uppercase;
-    }
-
-    /* Red accent under name */
-    .name-block h1 span {
-      display: block;
-      width: 48px;
-      height: 4px;
-      background: var(--red);
-      margin-top: 10px;
-    }
-
-    .name-block .subtitle {
-      font-family: 'Space Mono', monospace;
-      font-size: 12px;
-      color: #555;
-      letter-spacing: .06em;
-      margin-top: 6px;
-    }
-
-    .bio-block {
-      padding: 16px 24px;
-      border-bottom: var(--border);
-    }
-
-    .bio-block p {
-      font-size: 14px;
-      color: var(--black);
-      line-height: 1.65;
-    }
-
-    /* Info rows */
-    .info-row {
-      padding: 14px 24px;
-      border-bottom: var(--border);
-    }
-
-    .info-row:last-child { border-bottom: none; }
-
-    .row-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 9.5px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: #888;
+      color: var(--cyan);
       margin-bottom: 6px;
     }
 
-    .row-val {
-      font-size: 13.5px;
-      color: var(--black);
-      font-weight: 500;
+    .panel.full .p-lbl { color: var(--hot-pink); }
+
+    .p-val {
+      font-size: 12.5px;
+      color: var(--text-dim);
       line-height: 1.5;
     }
 
-    /* Joke gets accent bg */
-    .info-row.joke-row { background: var(--yellow); }
+    /* Social buttons */
+    .socials { display: flex; gap: 8px; flex-wrap: wrap; }
 
-    .info-row.joke-row .row-label { color: #664400; }
-
-    .info-row.joke-row .row-val {
-      font-style: italic;
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 400;
-    }
-
-    /* Links row */
-    .link-row {
-      display: flex;
-      gap: 0;
-      border-top: var(--border);
-    }
-
-    .link-item {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 8px;
-      text-decoration: none;
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
+    .sw-btn {
+      padding: 7px 16px;
+      border: 1px solid rgba(255,45,120,0.5);
+      background: rgba(255,45,120,0.06);
+      color: var(--hot-pink);
+      font-size: 12px;
+      font-family: 'Orbitron', sans-serif;
       letter-spacing: .08em;
-      color: var(--black);
-      background: var(--white);
-      border-right: var(--border);
-      transition: background .15s, color .15s;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: background .2s, box-shadow .2s;
     }
-    .link-item:last-child { border-right: none; }
-    .link-item:hover { background: var(--black); color: var(--yellow); }
+    .sw-btn:hover {
+      background: rgba(255,45,120,0.14);
+      box-shadow: 0 0 12px rgba(255,45,120,0.3);
+    }
+    .sw-btn.c {
+      border-color: rgba(0,240,255,0.5);
+      background: rgba(0,240,255,0.05);
+      color: var(--cyan);
+    }
+    .sw-btn.c:hover {
+      background: rgba(0,240,255,0.12);
+      box-shadow: 0 0 12px rgba(0,240,255,0.3);
+    }
 
-    /* Footer */
-    .bottom-strip {
-      background: var(--red);
-      color: var(--white);
+    .card-footer {
+      padding: 8px 26px;
+      border-top: 1px solid rgba(255,45,120,0.15);
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      padding: 7px 20px;
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9.5px;
       letter-spacing: .1em;
+      color: rgba(160,144,192,0.5);
       text-transform: uppercase;
     }
 
-    @media (max-width: 520px) {
-      .inner { grid-template-columns: 1fr; }
-      .rail { border-right: none; border-bottom: var(--border); flex-direction: row; flex-wrap: wrap; }
-      .avatar { width: 140px; height: 160px; border-right: var(--border); border-bottom: none; }
-      .rail-block { flex: 1; min-width: 150px; }
-      .skills-list { flex-direction: row; flex-wrap: wrap; }
-      .skill-tag { border-bottom: none; border-right: 1px solid rgba(0,0,0,0.12); }
+    @media (max-width: 500px) {
+      .panels { grid-template-columns: 1fr; }
+      .header-row { flex-direction: column; }
+      .card-body { padding: 18px; }
     }
   </style>
 </head>
 <body>
-  <div class="frame">
-    <div class="top-strip">
-      <span>DEV-CARD // OPEN SOURCE</span>
-      <span>23 Apr 2026, 05:51 am BDT</span>
+  <div class="sky"></div>
+  <div class="sun"></div>
+  <div class="grid-floor"></div>
+
+  <div class="card">
+    <div class="card-top">
+      <span>◈ DEVCARD OS v8.0</span>
+      <span>☁️ Khulna ONLINE ◈</span>
     </div>
 
-    <div class="inner">
-      <!-- Left Rail -->
-      <div class="rail">
+    <div class="card-body">
+      <div class="header-row">
         <img class="avatar" src="./images/profile.jpg" alt="Prapan Biswas">
-        <div class="rail-block">
-          <div class="rail-label">Location</div>
-          <div class="rail-val">Khulna, Bangladesh</div>
-        </div>
-        <div class="rail-block">
-          <div class="rail-label">Contact</div>
-          <div class="rail-val">prapanbiswas@gmail.com</div>
-        </div>
-        <div class="rail-block" style="flex:1;">
-          <div class="rail-label">Stack</div>
-          <div class="skills-list"><span class="skill-tag">JavaScript</span><span class="skill-tag">Node.js</span><span class="skill-tag">React</span><span class="skill-tag">Python</span><span class="skill-tag">ESP32</span><span class="skill-tag">C++</span><span class="skill-tag">GitHub Actions</span></div>
+        <div class="identity">
+          <h1>Prapan Biswas</h1>
+          <div class="title">Full-Stack &amp; Embedded Developer</div>
+          <div class="loc">📍 Khulna, Bangladesh</div>
         </div>
       </div>
 
-      <!-- Main -->
-      <div class="main-area">
-        <div class="name-block">
-          <h1>Prapan Biswas<span></span></h1>
-          <div class="subtitle">// Full-Stack &amp; Embedded Developer</div>
-        </div>
+      <p class="bio">Building creative things for the web and beyond. Passionate about clean code, great UX, and open source.</p>
 
-        <div class="bio-block">
-          <p>Building creative things for the web and beyond. Passionate about clean code, great UX, and open source.</p>
-        </div>
+      <div class="skills"><span class="skill-tag">JavaScript</span><span class="skill-tag">Node.js</span><span class="skill-tag">React</span><span class="skill-tag">Python</span><span class="skill-tag">ESP32</span><span class="skill-tag">C++</span><span class="skill-tag">GitHub Actions</span></div>
 
-        <div class="info-row">
-          <div class="row-label">☁️ Live Weather · Khulna</div>
-          <div class="row-val">☁️ 26°C · scattered clouds · Feels 26°C · 💧 90% · 💨 4.2 m/s</div>
-        </div>
+      <div class="neon-rule"></div>
 
-        <div class="info-row joke-row">
-          <div class="row-label">🃏 Dev Joke</div>
-          <div class="row-val">"&quot;We messed up the keming again guys.&quot;"</div>
+      <div class="panels">
+        <div class="panel">
+          <div class="p-lbl">Live Weather</div>
+          <div class="p-val">☁️ 33°C · scattered clouds · Feels 36°C · 💧 53% · 💨 4.6 m/s</div>
         </div>
+        <div class="panel full">
+          <div class="p-lbl">Dev Joke Transmission</div>
+          <div class="p-val">UDP is better in the COVID era since it avoids unnecessary handshakes.</div>
+        </div>
+      </div>
 
-        <div class="link-row">
-          <a class="link-item" href="https://github.com/prapanbiswas">GH</a>
-          <a class="link-item" href="https://linkedin.com/in/yourusername">LI</a>
-          <a class="link-item" href="mailto:prapanbiswas@gmail.com">✉</a>
-        </div>
+      <div class="socials">
+        <a class="sw-btn" href="https://github.com/prapanbiswas">GitHub</a>
+        <a class="sw-btn c" href="https://linkedin.com/in/yourusername">LinkedIn</a>
+        <a class="sw-btn" href="mailto:prapanbiswas@gmail.com">Mail</a>
       </div>
     </div>
 
-    <div class="bottom-strip">
-      <span>09-brutalist</span>
-      <span>Auto-updated via GitHub Actions</span>
+    <div class="card-footer">
+      <span>23 Apr 2026, 09:24 am BDT</span>
+      <span>10-synthwave</span>
     </div>
   </div>
 </body>
