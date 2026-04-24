@@ -3,368 +3,231 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prapan Biswas — Synthwave</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <title>Prapan Biswas — Developer Card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323:wght@400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --hot-pink:  #ff2d78;
-      --cyan:      #00f0ff;
-      --orange:    #ff7b00;
-      --purple:    #2d0045;
-      --deep:      #07000f;
-      --text:      #f0e8ff;
-      --text-dim:  #a090c0;
+      --green:       #00ff41;
+      --green-dim:   #00cc33;
+      --green-glow:  rgba(0, 255, 65, 0.15);
+      --bg:          #060d06;
+      --surface:     #0a0f0a;
+      --border:      #0d2a0d;
+      --text-bright: #ccffcc;
+      --text-dim:    #446644;
+      --yellow:      #ffdd00;
+      --cyan:        #00ffcc;
     }
 
     body {
-      background: var(--deep);
+      background: var(--bg);
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--green);
       padding: 20px;
-      overflow: hidden;
-      font-family: 'Exo 2', sans-serif;
     }
 
-    /* ── Synthwave Sky ── */
-    .sky {
+    /* CRT scanlines */
+    body::before {
+      content: '';
       position: fixed;
       inset: 0;
-      background: linear-gradient(
-        180deg,
-        #07000f 0%,
-        #120020 25%,
-        #2d0045 45%,
-        #6b0062 58%,
-        #c4004a 70%,
-        #ff7b00 80%,
-        #ffca00 88%,
-        #ff7b00 90%,
-        #c4004a 92%,
-        transparent 100%
-      );
-      z-index: 0;
-    }
-
-    /* Sun */
-    .sun {
-      position: fixed;
-      bottom: 42%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      background: linear-gradient(180deg, #ffca00 0%, #ff7b00 50%, #c4004a 100%);
-      box-shadow:
-        0 0 40px rgba(255,123,0,0.6),
-        0 0 80px rgba(255,123,0,0.3),
-        0 0 160px rgba(255,45,120,0.2);
-      z-index: 1;
-      overflow: hidden;
-    }
-
-    /* Sun stripes (horizon effect) */
-    .sun::after {
-      content: '';
-      position: absolute;
-      inset: 50% 0 0 0;
       background: repeating-linear-gradient(
-        180deg,
-        var(--deep) 0px,
-        var(--deep) 4px,
-        transparent 4px,
-        transparent 8px
+        0deg, transparent, transparent 2px,
+        rgba(0, 0, 0, 0.18) 2px, rgba(0, 0, 0, 0.18) 4px
       );
-      background-size: 100% 8px;
+      pointer-events: none;
+      z-index: 9999;
     }
 
-    /* ── 3D Grid Floor ── */
-    .grid-floor {
+    /* Vignette */
+    body::after {
+      content: '';
       position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 200%;
-      height: 55%;
-      z-index: 2;
-      overflow: hidden;
-    }
-
-    .grid-floor::before {
-      content: '';
-      position: absolute;
       inset: 0;
-      background-image:
-        linear-gradient(rgba(255,45,120,0.55) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,45,120,0.55) 1px, transparent 1px);
-      background-size: 80px 80px;
-      transform: perspective(300px) rotateX(70deg);
-      transform-origin: top center;
-      animation: grid-move 6s linear infinite;
+      background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.75) 100%);
+      pointer-events: none;
+      z-index: 9998;
     }
 
-    @keyframes grid-move {
-      0%   { background-position: 0 0; }
-      100% { background-position: 0 80px; }
+    .window {
+      width: min(720px, 100%);
+      background: var(--surface);
+      border: 1px solid var(--green-dim);
+      box-shadow: 0 0 0 1px rgba(0,255,65,0.05),
+                  0 0 30px rgba(0,255,65,0.08),
+                  0 0 80px rgba(0,255,65,0.04);
+      animation: flicker 12s infinite;
     }
 
-    /* ── Card ── */
-    .card {
-      width: min(640px, 100%);
-      background: rgba(7, 0, 15, 0.82);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,45,120,0.4);
-      border-radius: 4px;
-      position: relative;
-      z-index: 10;
-      box-shadow:
-        0 0 0 1px rgba(0,240,255,0.1),
-        0 0 60px rgba(255,45,120,0.15),
-        0 0 120px rgba(255,45,120,0.06),
-        inset 0 1px 0 rgba(255,255,255,0.06);
+    @keyframes flicker {
+      0%,89%,91%,93%,100% { opacity: 1; }
+      90% { opacity: .92; }
+      92% { opacity: .97; }
     }
 
-    /* Neon top bar */
-    .card::before {
-      content: '';
-      position: absolute;
-      top: -1px; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--cyan), var(--hot-pink), var(--orange), transparent);
-      box-shadow: 0 0 12px var(--hot-pink);
-    }
-
-    .card-top {
+    .titlebar {
+      background: var(--green);
+      color: #000;
+      padding: 5px 14px;
+      font-size: 12px;
+      letter-spacing: .05em;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 8px 20px;
-      border-bottom: 1px solid rgba(255,45,120,0.2);
-      font-family: 'Orbitron', sans-serif;
-      font-size: 10px;
-      letter-spacing: .12em;
-      color: var(--hot-pink);
-      text-transform: uppercase;
+      gap: 8px;
+      font-weight: 700;
     }
 
-    .card-body { padding: 24px 26px 20px; }
+    .btn { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+    .btn-r { background: #ff5f57; }
+    .btn-y { background: #febc2e; }
+    .btn-g { background: #28c840; }
 
-    .header-row {
+    .body { padding: 20px 24px 16px; font-size: 13.5px; line-height: 1.55; }
+
+    .line   { margin: 3px 0; }
+    .prompt { color: var(--green); }
+    .cmd    { color: #fff; }
+    .sep    { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
+    .label  { color: var(--cyan); }
+    .value  { color: var(--yellow); }
+    .muted  { color: #2a4a2a; }
+    .dim    { color: var(--text-dim); }
+    .ok     { color: #00ff88; }
+    .info   { color: var(--text-bright); padding-left: 14px; }
+
+    .profile-row {
       display: flex;
-      gap: 20px;
       align-items: flex-start;
-      margin-bottom: 20px;
+      gap: 18px;
+      margin: 8px 0;
     }
 
     .avatar {
-      width: 80px;
-      height: 80px;
+      width: 82px;
+      height: 82px;
       object-fit: cover;
       flex-shrink: 0;
-      border: 1px solid var(--hot-pink);
-      border-radius: 4px;
-      box-shadow:
-        0 0 12px rgba(255,45,120,0.35),
-        4px 4px 0 rgba(0,240,255,0.15);
-      filter: saturate(1.15);
+      border: 1px solid var(--green-dim);
+      filter: grayscale(1) contrast(1.3) brightness(.75)
+              sepia(1) hue-rotate(80deg) saturate(500%);
     }
 
-    .identity h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: clamp(18px, 4vw, 26px);
-      font-weight: 900;
-      color: var(--text);
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      line-height: 1.15;
-      text-shadow: 0 0 20px rgba(0,240,255,0.3);
+    .kv { display: grid; grid-template-columns: auto 1fr; gap: 0 6px; }
+    .kv .label::after { content: ':'; }
+
+    .box {
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      margin: 8px 0;
+      background: rgba(0,255,65,0.025);
     }
 
-    .identity .title {
-      font-size: 12px;
-      font-weight: 300;
-      color: var(--cyan);
-      margin-top: 5px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
+    .weather-val { color: var(--text-bright); font-size: 13px; }
+
+    .joke-val {
+      color: #b3ffb3;
+      font-size: 13px;
+      line-height: 1.7;
     }
 
-    .identity .loc {
-      font-size: 11.5px;
-      color: var(--text-dim);
-      margin-top: 5px;
-      letter-spacing: .05em;
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      padding-left: 14px;
+      margin: 4px 0 6px;
     }
-
-    .bio {
-      font-size: 13.5px;
-      color: var(--text-dim);
-      line-height: 1.65;
-      margin-bottom: 18px;
-      font-style: italic;
-    }
-
-    /* Neon divider */
-    .neon-rule {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,45,120,0.5), rgba(0,240,255,0.5), transparent);
-      margin: 16px 0;
-    }
-
-    /* Skills */
-    .skills { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 18px; }
 
     .skill-tag {
-      background: rgba(255,45,120,0.06);
-      border: 1px solid rgba(255,45,120,0.35);
-      color: var(--hot-pink);
-      padding: 3px 11px;
+      border: 1px solid var(--green-dim);
+      padding: 1px 8px;
       font-size: 11.5px;
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: .06em;
-      border-radius: 2px;
+      color: var(--green);
+      letter-spacing: .04em;
     }
 
-    /* Data panels */
-    .panels { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
-
-    .panel {
-      border: 1px solid rgba(0,240,255,0.15);
-      border-radius: 4px;
-      padding: 11px 13px;
-      background: rgba(0,240,255,0.02);
-      position: relative;
-    }
-
-    .panel.full { grid-column: 1 / -1; }
-    .panel.full { border-color: rgba(255,45,120,0.2); background: rgba(255,45,120,0.02); }
-
-    .p-lbl {
-      font-family: 'Orbitron', monospace;
-      font-size: 9px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--cyan);
-      margin-bottom: 6px;
-    }
-
-    .panel.full .p-lbl { color: var(--hot-pink); }
-
-    .p-val {
-      font-size: 12.5px;
-      color: var(--text-dim);
-      line-height: 1.5;
-    }
-
-    /* Social buttons */
-    .socials { display: flex; gap: 8px; flex-wrap: wrap; }
-
-    .sw-btn {
-      padding: 7px 16px;
-      border: 1px solid rgba(255,45,120,0.5);
-      background: rgba(255,45,120,0.06);
-      color: var(--hot-pink);
-      font-size: 12px;
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border-radius: 2px;
-      transition: background .2s, box-shadow .2s;
-    }
-    .sw-btn:hover {
-      background: rgba(255,45,120,0.14);
-      box-shadow: 0 0 12px rgba(255,45,120,0.3);
-    }
-    .sw-btn.c {
-      border-color: rgba(0,240,255,0.5);
-      background: rgba(0,240,255,0.05);
-      color: var(--cyan);
-    }
-    .sw-btn.c:hover {
-      background: rgba(0,240,255,0.12);
-      box-shadow: 0 0 12px rgba(0,240,255,0.3);
-    }
-
-    .card-footer {
-      padding: 8px 26px;
-      border-top: 1px solid rgba(255,45,120,0.15);
+    .footer {
       display: flex;
       justify-content: space-between;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 9.5px;
-      letter-spacing: .1em;
-      color: rgba(160,144,192,0.5);
-      text-transform: uppercase;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 4px;
     }
 
-    @media (max-width: 500px) {
-      .panels { grid-template-columns: 1fr; }
-      .header-row { flex-direction: column; }
-      .card-body { padding: 18px; }
+    .blink { animation: blink 1s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    a { color: var(--cyan); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    @media (max-width: 480px) {
+      .body { padding: 14px 16px 12px; font-size: 12px; }
+      .avatar { width: 64px; height: 64px; }
     }
   </style>
 </head>
 <body>
-  <div class="sky"></div>
-  <div class="sun"></div>
-  <div class="grid-floor"></div>
-
-  <div class="card">
-    <div class="card-top">
-      <span>◈ DEVCARD OS v8.0</span>
-      <span>☁️ Khulna ONLINE ◈</span>
+  <div class="window">
+    <div class="titlebar">
+      <div class="btn btn-r"></div>
+      <div class="btn btn-y"></div>
+      <div class="btn btn-g"></div>
+      &nbsp;bash — devcard@localhost — 80×24
     </div>
 
-    <div class="card-body">
-      <div class="header-row">
+    <div class="body">
+      <div class="line"><span class="prompt">root@devcard:~$</span> <span class="cmd">cat /etc/profile.conf</span></div>
+      <hr class="sep">
+
+      <div class="profile-row">
         <img class="avatar" src="./images/profile.jpg" alt="Prapan Biswas">
-        <div class="identity">
-          <h1>Prapan Biswas</h1>
-          <div class="title">Full-Stack &amp; Embedded Developer</div>
-          <div class="loc">📍 Khulna, Bangladesh</div>
+        <div class="kv">
+          <span class="label">NAME</span>     <span class="value">Prapan Biswas</span>
+          <span class="label">TITLE</span>    <span class="value">Full-Stack &amp; Embedded Developer</span>
+          <span class="label">LOCATION</span> <span class="value">Khulna, Bangladesh</span>
+          <span class="label">GITHUB</span>   <a class="value" href="https://github.com/prapanbiswas">https://github.com/prapanbiswas</a>
+          <span class="label">EMAIL</span>    <span class="value">prapanbiswas@gmail.com</span>
         </div>
       </div>
 
-      <p class="bio">Building creative things for the web and beyond. Passionate about clean code, great UX, and open source.</p>
+      <div class="line dim">// Building creative things for the web and beyond. Passionate about clean code, great UX, and open source.</div>
 
+      <hr class="sep">
+      <div class="line"><span class="prompt">root@devcard:~$</span> <span class="cmd">skills --list</span></div>
       <div class="skills"><span class="skill-tag">JavaScript</span><span class="skill-tag">Node.js</span><span class="skill-tag">React</span><span class="skill-tag">Python</span><span class="skill-tag">ESP32</span><span class="skill-tag">C++</span><span class="skill-tag">GitHub Actions</span></div>
 
-      <div class="neon-rule"></div>
-
-      <div class="panels">
-        <div class="panel">
-          <div class="p-lbl">Live Weather</div>
-          <div class="p-val">☁️ 26°C · broken clouds · Feels 27°C · 💧 92% · 💨 2.6 m/s</div>
-        </div>
-        <div class="panel full">
-          <div class="p-lbl">Dev Joke Transmission</div>
-          <div class="p-val">The six stages of debugging:
-1. That can&#039;t happen.
-2. That doesn&#039;t happen on my machine.
-3. That shouldn&#039;t happen.
-4. Why does that happen?
-5. Oh, I see.
-6. How did that ever work?</div>
-        </div>
+      <hr class="sep">
+      <div class="line"><span class="prompt">root@devcard:~$</span> <span class="cmd">fetch --weather Khulna</span></div>
+      <div class="box">
+        <span class="ok">✓ STATUS 200</span>
+        <div class="weather-val info">☁️ 33°C · broken clouds · Feels 36°C · 💧 51% · 💨 3.6 m/s</div>
       </div>
 
-      <div class="socials">
-        <a class="sw-btn" href="https://github.com/prapanbiswas">GitHub</a>
-        <a class="sw-btn c" href="https://linkedin.com/in/yourusername">LinkedIn</a>
-        <a class="sw-btn" href="mailto:prapanbiswas@gmail.com">Mail</a>
+      <div class="line"><span class="prompt">root@devcard:~$</span> <span class="cmd">fortune --type=programming</span></div>
+      <div class="box">
+        <span class="joke-val">» Knock knock.
+Who&#039;s there?
+Recursion.
+Recursion who?
+Knock knock.</span>
       </div>
-    </div>
 
-    <div class="card-footer">
-      <span>24 Apr 2026, 05:54 am BDT</span>
-      <span>10-synthwave</span>
+      <div class="footer">
+        <span>last_sync: 24 Apr 2026, 09:27 am BDT</span>
+        <span>tpl: 01-retro-terminal <span class="blink">█</span></span>
+      </div>
     </div>
   </div>
 </body>
